@@ -1,6 +1,123 @@
-﻿Library emulates the HTML5 History API in older browsers.
+Library emulates the HTML5 History API in older browsers.
 
-How to work with the HTML5 History API, you can learn from official sources.
+Library that does not add unnecessary methods forcing them to study, and operates under the specification of w3c, the interface History.
+
+For example I can give a short code to work with her.
+
+In principle we are working with HTML5 History API as described for example here http://diveintohtml5.info/history.html or on the specification http://www.w3.org/TR/html5/history.html#the-history-interface
+
+That is a very brief example:
+
+on pure JS:
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <script type="text/javascript" src="history-2.0.2.js"></script>
+            <script type="text/javascript">
+                window.onload = function() {
+    
+                    // function for the reference is processed when you click on the link
+                    function handlerAnchors() {
+                        // keep the link in the browser history
+                        history.pushState( null, null, this.href );
+    
+    
+                        // here can cause data loading, etc.
+    
+    
+                        // do not give a default action
+                        return false;
+                    }
+    
+                    // looking for all the links
+                    var anchors = document.getElementsByTagName( 'a' );
+    
+                    // hang on the event, all references in this document
+                    for( var i = 0; i < anchors.length; i++ ) {
+                        anchors[ i ].onclick = handlerAnchors;
+                    }
+    
+                    // hang on popstate event triggered by pressing back/forward in browser
+                    window.onpopstate = function( e ) {
+    
+                        // we get a normal Location object
+    
+                        /*
+                        * Note, this is the only difference when using this library, because
+                        * the object document.location not restart, so the library is generated
+                        * through the Location object sends in event object
+                        */
+                        var returnLocation = e.location || document.location;
+    
+    
+                        // here can cause data loading, etc.
+    
+    
+                        // just post
+                        alert( "We returned to the page with a link: " + returnLocation.href );
+                    }
+                }
+            </script>
+        </head>
+        <body>
+            <a href="/mylink.html">My Link</a>
+            <a href="/otherlink.html">Other Link</a>
+        </body>
+    </html>
+
+And now show an example in conjunction with jQuery:
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <script type="text/javascript" src="history-2.0.2.js"></script>
+            <script type="text/javascript" src="jquery.js"></script>
+            <script type="text/javascript">
+                $(function() {
+    
+                    // looking for all the links and hang on the event, all references in this document
+                    $("a").click(function() {
+                        // keep the link in the browser history
+                        history.pushState( null, null, this.href );
+    
+    
+                        // here can cause data loading, etc.
+    
+    
+                        // do not give a default action
+                        return false;
+                    });
+    
+                    // hang on popstate event triggered by pressing back/forward in browser
+                    $( window ).bind( "popstate", function( e ) {
+    
+                        // we get a normal Location object
+    
+                        /*
+                        * history library returns generated "location" object inside the Event object
+                        * so we get it from "e.location", the object "e.originalEvent" is needed in
+                        * that case if you use the jQuery library as it returns the original object
+                        * is in this variable. For browsers supporting "history.pushState" get shaped
+                        * object "location" with the usual "document.location".
+                        */
+                        var returnLocation = e.location || ( e.originalEvent && e.originalEvent.location ) || document.location;
+    
+    
+                        // here can cause data loading, etc.
+    
+    
+                        // just post
+                        alert( "We returned to the page with a link: " + returnLocation.href );
+                    });
+                });
+            </script>
+        </head>
+        <body>
+            <a href="/mylink.html">My Link</a>
+            <a href="/otherlink.html">Other Link</a>
+        </body>
+    </html>
 
 Using the event popstate the usual pure JS:
 
@@ -27,10 +144,14 @@ Using the popstate event in conjunction jQuery:
 
 You can use the advanced configuration library:
 	history-1.2.6.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
-	history-1.2.6.min.js?redirect=false - disable link translation.
+	history-1.2.6.min.js?redirect=true - enable link translation.
 	history-1.2.6.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
 
 You can also combine options:
-	history-1.2.6.min.js?type=/&redirect=false&basepath=/pathtosite/ - the order of options does not matter.
+	history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
 Demo Site: http://history.spb-piksel.ru/
+
+GitHub Project: https://github.com/devote/HTML5-History-API
+
+I'm on Twitter: https://twitter.com/DimaPakhtinov

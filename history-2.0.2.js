@@ -32,7 +32,7 @@
 	// Internal settings for this library
 	sets = function() {
 
-		var i, m, s, config = { basepath: '/', redirect: true, type: '' },
+		var i, m, s, config = { basepath: '/', redirect: false, type: '' },
 			el = document.getElementsByTagName("SCRIPT");
 
 		// parse GET parameters for internal settings.
