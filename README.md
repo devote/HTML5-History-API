@@ -1,3 +1,6 @@
+ENGLISH
+=============================================================================================================
+
 Library emulates the HTML5 History API in older browsers.
 
 Library that does not add unnecessary methods forcing them to study, and operates under the specification of w3c, the interface History.
@@ -44,11 +47,14 @@ on pure JS:
                         // we get a normal Location object
     
                         /*
-                        * Note, this is the only difference when using this library, because
-                        * the object document.location not restart, so the library is generated
-                        * through the Location object sends in event object
-                        */
-                        var returnLocation = e.location || document.location;
+                        * Note, this is the only difference when using this library,
+                        * because the object document.location don't overwritten,
+                        * so library the returns generated "location" object within
+                        * an object window.history, so get it out of "history.location".
+                        * For browsers supporting "history.pushState" get shaped
+                        * object "location" with the usual "document.location".
+						*/
+                        var returnLocation = history.location || document.location;
     
     
                         // here can cause data loading, etc.
@@ -95,13 +101,14 @@ And now show an example in conjunction with jQuery:
                         // we get a normal Location object
     
                         /*
-                        * history library returns generated "location" object inside the Event object
-                        * so we get it from "e.location", the object "e.originalEvent" is needed in
-                        * that case if you use the jQuery library as it returns the original object
-                        * is in this variable. For browsers supporting "history.pushState" get shaped
+                        * Note, this is the only difference when using this library,
+                        * because the object document.location don't overwritten,
+                        * so library the returns generated "location" object within
+                        * an object window.history, so get it out of "history.location".
+                        * For browsers supporting "history.pushState" get shaped
                         * object "location" with the usual "document.location".
-                        */
-                        var returnLocation = e.location || ( e.originalEvent && e.originalEvent.location ) || document.location;
+						*/
+                        var returnLocation = history.location || document.location;
     
     
                         // here can cause data loading, etc.
@@ -123,8 +130,8 @@ Using the event popstate the usual pure JS:
 
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
-        // receiving location of the event object
-        var loc = event.location || document.location;
+        // receiving location from the window.history object
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
 
@@ -133,22 +140,24 @@ Using the event popstate the usual pure JS:
 
 Using the popstate event in conjunction jQuery:
 
-	$( window ).bind( 'popstate', function( event ) {
+    $( window ).bind( 'popstate', function( event ) {
 
-		// jQuery saving the original event in the property originalEvent
-		var loc = event.location || ( event.originalEvent && event.originalEvent.location ) || document.location;
+        // receiving location from the window.history object
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
-	});
+    });
 
 
 You can use the advanced configuration library:
-	history-1.2.6.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
-	history-1.2.6.min.js?redirect=true - enable link translation.
-	history-1.2.6.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
+
+    history-1.2.6.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
+    history-1.2.6.min.js?redirect=true - enable link translation.
+    history-1.2.6.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
 
 You can also combine options:
-	history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
+
+    history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
 Demo Site: http://history.spb-piksel.ru/
 
@@ -157,7 +166,8 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 
 -------------------------------------------------------------------------------------------------------------
 
-
+РУССКИЙ
+=============================================================================================================
 
 Библиотека эмулирует HTML5 History API в старых браузерах.
 
@@ -207,9 +217,12 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
                         /*
                         * заметьте, это единственная разница при работе с данной библиотекой,
                         * так как объект document.location нельзя перезагрузить, поэтому
-                        * библиотека сформированный Location объект посылает через объект event
+                        * библиотека history возвращает сформированный "location" объект внутри
+                        * объекта window.history, поэтому получаем его из "history.location".
+                        * Для браузеров поддерживающих "history.pushState" получаем
+                        * сформированный объект "location" с обычного "document.location".
                         */
-                        var returnLocation = e.location || document.location;
+                        var returnLocation = history.location || document.location;
 
 
                         // тут можете вызвать подгруздку данных и т.п.
@@ -256,13 +269,14 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
                         // получаем нормальный объект Location
 
                         /*
-                        * библиотека history возвращает сформированный "location" объект внутри объекта Event
-                        * поэтому получаем его из "e.location", объект "e.originalEvent" нужен в том случае
-                        * если вы используете библиотеку jQuery так как она возвращает оригинальный объект
-                        * именно в этой переменной. Для браузеров поддерживающих "history.pushState" получаем
+                        * заметьте, это единственная разница при работе с данной библиотекой,
+                        * так как объект document.location нельзя перезагрузить, поэтому
+                        * библиотека history возвращает сформированный "location" объект внутри
+                        * объекта window.history, поэтому получаем его из "history.location".
+                        * Для браузеров поддерживающих "history.pushState" получаем
                         * сформированный объект "location" с обычного "document.location".
                         */
-                        var returnLocation = e.location || ( e.originalEvent && e.originalEvent.location ) || document.location;
+                        var returnLocation = history.location || document.location;
 
 
                         // тут можете вызвать подгруздку данных и т.п.
@@ -284,8 +298,8 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
-        // получение location из объекта event
-        var loc = event.location || document.location;
+        // получение location из объекта window.history
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
 
@@ -294,25 +308,25 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 
 Использование события popstate в связке jQuery:
 
-	$( window ).bind( 'popstate', function( event ) {
+    $( window ).bind( 'popstate', function( event ) {
 
-		// jQuery оригинальное событие хранит в свойстве originalEvent
-		var loc = event.location || ( event.originalEvent && event.originalEvent.location ) || document.location;
+        // получение location из объекта window.history
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
-	});
+    });
 
 
 Вы можете использовать дополнительные параметры конфигурации библиотеки:
-	history-1.2.6.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
-	history-1.2.6.min.js?redirect=true - включить преобразование ссылок.
-	history-1.2.6.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
+
+    history-1.2.6.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
+    history-1.2.6.min.js?redirect=true - включить преобразование ссылок.
+    history-1.2.6.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
 
 Также вы можете комбинировать опции:
-	history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
+
+    history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
 
 Демо-сайт: http://history.spb-piksel.ru/
-
-GitHub Проект: https://github.com/devote/HTML5-History-API
 
 Я в Twitter: https://twitter.com/DimaPakhtinov

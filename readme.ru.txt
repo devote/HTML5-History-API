@@ -13,7 +13,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.2.js"></script>
+            <script type="text/javascript" src="history-2.0.3.js"></script>
             <script type="text/javascript">
                 window.onload = function() {
 
@@ -46,9 +46,12 @@
                         /*
                         * заметьте, это единственная разница при работе с данной библиотекой,
                         * так как объект document.location нельзя перезагрузить, поэтому
-                        * библиотека сформированный Location объект посылает через объект event
+                        * библиотека history возвращает сформированный "location" объект внутри
+                        * объекта window.history, поэтому получаем его из "history.location".
+                        * Для браузеров поддерживающих "history.pushState" получаем
+                        * сформированный объект "location" с обычного "document.location".
                         */
-                        var returnLocation = e.location || document.location;
+                        var returnLocation = history.location || document.location;
 
 
                         // тут можете вызвать подгруздку данных и т.п.
@@ -71,7 +74,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.2.js"></script>
+            <script type="text/javascript" src="history-2.0.3.js"></script>
             <script type="text/javascript" src="jquery.js"></script>
             <script type="text/javascript">
                 $(function() {
@@ -95,13 +98,14 @@
                         // получаем нормальный объект Location
 
                         /*
-                        * библиотека history возвращает сформированный "location" объект внутри объекта Event
-                        * поэтому получаем его из "e.location", объект "e.originalEvent" нужен в том случае
-                        * если вы используете библиотеку jQuery так как она возвращает оригинальный объект
-                        * именно в этой переменной. Для браузеров поддерживающих "history.pushState" получаем
+                        * заметьте, это единственная разница при работе с данной библиотекой,
+                        * так как объект document.location нельзя перезагрузить, поэтому
+                        * библиотека history возвращает сформированный "location" объект внутри
+                        * объекта window.history, поэтому получаем его из "history.location".
+                        * Для браузеров поддерживающих "history.pushState" получаем
                         * сформированный объект "location" с обычного "document.location".
                         */
-                        var returnLocation = e.location || ( e.originalEvent && e.originalEvent.location ) || document.location;
+                        var returnLocation = history.location || document.location;
 
 
                         // тут можете вызвать подгруздку данных и т.п.
@@ -123,8 +127,8 @@
 
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
-        // получение location из объекта event
-        var loc = event.location || document.location;
+        // получение location из объекта window.history
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
 
@@ -135,8 +139,8 @@
 
 	$( window ).bind( 'popstate', function( event ) {
 
-		// jQuery оригинальное событие хранит в свойстве originalEvent
-		var loc = event.location || ( event.originalEvent && event.originalEvent.location ) || document.location;
+        // получение location из объекта window.history
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
 	});

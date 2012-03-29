@@ -13,7 +13,7 @@ on pure JS:
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.2.js"></script>
+            <script type="text/javascript" src="history-2.0.3.js"></script>
             <script type="text/javascript">
                 window.onload = function() {
     
@@ -44,11 +44,14 @@ on pure JS:
                         // we get a normal Location object
     
                         /*
-                        * Note, this is the only difference when using this library, because
-                        * the object document.location not restart, so the library is generated
-                        * through the Location object sends in event object
-                        */
-                        var returnLocation = e.location || document.location;
+                        * Note, this is the only difference when using this library,
+                        * because the object document.location don't overwritten,
+                        * so library the returns generated "location" object within
+                        * an object window.history, so get it out of "history.location".
+                        * For browsers supporting "history.pushState" get shaped
+                        * object "location" with the usual "document.location".
+						*/
+                        var returnLocation = history.location || document.location;
     
     
                         // here can cause data loading, etc.
@@ -71,7 +74,7 @@ And now show an example in conjunction with jQuery:
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.2.js"></script>
+            <script type="text/javascript" src="history-2.0.3.js"></script>
             <script type="text/javascript" src="jquery.js"></script>
             <script type="text/javascript">
                 $(function() {
@@ -95,13 +98,14 @@ And now show an example in conjunction with jQuery:
                         // we get a normal Location object
     
                         /*
-                        * history library returns generated "location" object inside the Event object
-                        * so we get it from "e.location", the object "e.originalEvent" is needed in
-                        * that case if you use the jQuery library as it returns the original object
-                        * is in this variable. For browsers supporting "history.pushState" get shaped
+                        * Note, this is the only difference when using this library,
+                        * because the object document.location don't overwritten,
+                        * so library the returns generated "location" object within
+                        * an object window.history, so get it out of "history.location".
+                        * For browsers supporting "history.pushState" get shaped
                         * object "location" with the usual "document.location".
-                        */
-                        var returnLocation = e.location || ( e.originalEvent && e.originalEvent.location ) || document.location;
+						*/
+                        var returnLocation = history.location || document.location;
     
     
                         // here can cause data loading, etc.
@@ -123,8 +127,8 @@ Using the event popstate the usual pure JS:
 
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
-        // receiving location of the event object
-        var loc = event.location || document.location;
+        // receiving location from the window.history object
+        var loc = history.location || document.location;
 
         alert( "return to: " + loc );
 
@@ -135,8 +139,8 @@ Using the popstate event in conjunction jQuery:
 
 	$( window ).bind( 'popstate', function( event ) {
 
-		// jQuery saving the original event in the property originalEvent
-		var loc = event.location || ( event.originalEvent && event.originalEvent.location ) || document.location;
+        // receiving location from the window.history object
+		var loc = history.location || document.location;
 
         alert( "return to: " + loc );
 	});
