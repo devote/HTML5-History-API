@@ -48,12 +48,12 @@ on pure JS:
     
                         /*
                         * Note, this is the only difference when using this library,
-                        * because the object document.location don't overwritten,
+                        * because the object document.location cannot be overriden,
                         * so library the returns generated "location" object within
                         * an object window.history, so get it out of "history.location".
-                        * For browsers supporting "history.pushState" get shaped
+                        * For browsers supporting "history.pushState" get generated
                         * object "location" with the usual "document.location".
-						*/
+                        */
                         var returnLocation = history.location || document.location;
     
     
@@ -102,12 +102,12 @@ And now show an example in conjunction with jQuery:
     
                         /*
                         * Note, this is the only difference when using this library,
-                        * because the object document.location don't overwritten,
+                        * because the object document.location cannot be overriden,
                         * so library the returns generated "location" object within
                         * an object window.history, so get it out of "history.location".
-                        * For browsers supporting "history.pushState" get shaped
+                        * For browsers supporting "history.pushState" get generated
                         * object "location" with the usual "document.location".
-						*/
+                        */
                         var returnLocation = history.location || document.location;
     
     
@@ -151,13 +151,13 @@ Using the popstate event in conjunction jQuery:
 
 You can use the advanced configuration library:
 
-    history-1.2.6.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
-    history-1.2.6.min.js?redirect=true - enable link translation.
-    history-1.2.6.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
+    history.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
+    history.js?redirect=true - enable link translation.
+    history.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
 
 You can also combine options:
 
-    history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
+    history.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
 Demo Site: http://history.spb-piksel.ru/
 
@@ -319,13 +319,13 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 
 Вы можете использовать дополнительные параметры конфигурации библиотеки:
 
-    history-1.2.6.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
-    history-1.2.6.min.js?redirect=true - включить преобразование ссылок.
-    history-1.2.6.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
+    history.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
+    history.js?redirect=true - включить преобразование ссылок.
+    history.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
 
 Также вы можете комбинировать опции:
 
-    history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
+    history.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
 
 Демо-сайт: http://history.spb-piksel.ru/
 
