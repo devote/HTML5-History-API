@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v2.0.4
+ * history API JavaScript Library v2.0.3
  *
  * Support: IE6+, FF3+, Opera 9+, Safari
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 06-04-2012
+ * Update: 29-03-2012
  */
 
 (function( window, undefined ){
@@ -104,9 +104,6 @@
 	}
 
 	lastHash = getURL().url;
-
-	// simlink for browser supported History API - ( not recommended use )
-	History.location = Location;
 
 	if ( ( sets.redirect && window.parent.frames.length === 0 && !init() ) || api ) return;
 
@@ -309,13 +306,13 @@
 			o.initEvent( 'popstate', false, false );
 		} else {
 			var o = document.createEventObject();
-			o.type = "popstate";
 		}
 
 		o.location = History.location;
 		o.state = History.state;
 		o.title = History.title;
 		o.srcElement = window;
+		o.type = "popstate";
 
 		window.dispatchEvent ? window.dispatchEvent( o ) : window.fireEvent( 'popstate', o );
 	}
