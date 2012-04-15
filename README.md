@@ -12,7 +12,7 @@ In principle we are working with HTML5 History API as described for example here
 That is a very brief example:
 
 on pure JS:
-
+```html
     <!DOCTYPE html>
     <html>
         <head>
@@ -71,9 +71,9 @@ on pure JS:
             <a href="/otherlink.html">Other Link</a>
         </body>
     </html>
-
+```
 And now show an example in conjunction with jQuery:
-
+```html
     <!DOCTYPE html>
     <html>
         <head>
@@ -125,9 +125,9 @@ And now show an example in conjunction with jQuery:
             <a href="/otherlink.html">Other Link</a>
         </body>
     </html>
-
+```
 Using the event popstate the usual pure JS:
-
+```javascript
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
         // receiving location from the window.history object
@@ -136,10 +136,10 @@ Using the event popstate the usual pure JS:
         alert( "return to: " + loc );
 
     }, false);
-
+```
 
 Using the popstate event in conjunction jQuery:
-
+```javascript
     $( window ).bind( 'popstate', function( event ) {
 
         // receiving location from the window.history object
@@ -147,7 +147,7 @@ Using the popstate event in conjunction jQuery:
 
         alert( "return to: " + loc );
     });
-
+```
 
 You can use the advanced configuration library:
 
@@ -180,7 +180,7 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 То-есть коротенький пример:
 
 на чистом JS:
-
+```html
     <!DOCTYPE html>
     <html>
         <head>
@@ -239,9 +239,9 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
             <a href="/otherlink.html">Other Link</a>
         </body>
     </html>
-
+```
 А тепер показываю пример в связке с jQuery:
-
+```html
     <!DOCTYPE html>
     <html>
         <head>
@@ -293,9 +293,9 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
             <a href="/otherlink.html">Other Link</a>
         </body>
     </html>
-
+```
 Использование события popstate при обычном чистом JS:
-
+```javascript
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
         // получение location из объекта window.history
@@ -304,10 +304,10 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
         alert( "return to: " + loc );
 
     }, false);
-
+```
 
 Использование события popstate в связке jQuery:
-
+```javascript
     $( window ).bind( 'popstate', function( event ) {
 
         // получение location из объекта window.history
@@ -315,7 +315,7 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 
         alert( "return to: " + loc );
     });
-
+```
 
 Вы можете использовать дополнительные параметры конфигурации библиотеки:
 
