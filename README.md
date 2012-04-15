@@ -12,6 +12,7 @@ In principle we are working with HTML5 History API as described for example here
 That is a very brief example:
 
 on pure JS:
+
 ```html
     <!DOCTYPE html>
     <html>
@@ -72,7 +73,9 @@ on pure JS:
         </body>
     </html>
 ```
+
 And now show an example in conjunction with jQuery:
+
 ```html
     <!DOCTYPE html>
     <html>
@@ -126,7 +129,9 @@ And now show an example in conjunction with jQuery:
         </body>
     </html>
 ```
+
 Using the event popstate the usual pure JS:
+
 ```javascript
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
@@ -139,6 +144,7 @@ Using the event popstate the usual pure JS:
 ```
 
 Using the popstate event in conjunction jQuery:
+
 ```javascript
     $( window ).bind( 'popstate', function( event ) {
 
@@ -180,6 +186,7 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 То-есть коротенький пример:
 
 на чистом JS:
+
 ```html
     <!DOCTYPE html>
     <html>
@@ -240,7 +247,9 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
         </body>
     </html>
 ```
+
 А тепер показываю пример в связке с jQuery:
+
 ```html
     <!DOCTYPE html>
     <html>
@@ -294,7 +303,9 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
         </body>
     </html>
 ```
+
 Использование события popstate при обычном чистом JS:
+
 ```javascript
     window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
 
@@ -307,6 +318,7 @@ I'm on Twitter: https://twitter.com/DimaPakhtinov
 ```
 
 Использование события popstate в связке jQuery:
+
 ```javascript
     $( window ).bind( 'popstate', function( event ) {
 
