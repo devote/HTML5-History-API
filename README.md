@@ -1,17 +1,11 @@
 ENGLISH
 =============================================================================================================
 
-Library emulates the HTML5 History API in older browsers.
+This Javascript library provides an emulation of HTML5 History API for older browsers.
 
-Library that does not add unnecessary methods forcing them to study, and operates under the specification of w3c, the interface History.
+The library operates according to W3C specification, adding no new or incompatible methods. The library can be used exactly as described, for example, in Dive Into HTML5 book (http://diveintohtml5.info/history.html) or in the History API Specification (http://www.w3.org/TR/html5/history.html#the-history-interface).
 
-For example I can give a short code to work with her.
-
-In principle we are working with HTML5 History API as described for example here http://diveintohtml5.info/history.html or on the specification http://www.w3.org/TR/html5/history.html#the-history-interface
-
-That is a very brief example:
-
-on pure JS:
+Example of using the library in the pure JS context:
 
 ```html
 <!DOCTYPE html>
@@ -74,7 +68,7 @@ on pure JS:
 </html>
 ```
 
-And now show an example in conjunction with jQuery:
+Example of using the library along with JQuery:
 
 ```html
 <!DOCTYPE html>
@@ -130,7 +124,7 @@ And now show an example in conjunction with jQuery:
 </html>
 ```
 
-Using the event popstate the usual pure JS:
+Example of using popstate (pure JS):
 
 ```javascript
 window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
@@ -143,7 +137,7 @@ window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstat
 }, false);
 ```
 
-Using the popstate event in conjunction jQuery:
+Example of using popstate with JQuery:
 
 ```javascript
 $( window ).bind( 'popstate', function( event ) {
@@ -155,11 +149,11 @@ $( window ).bind( 'popstate', function( event ) {
 });
 ```
 
-You can use the advanced configuration library:
+Advanced library configuration:
 
-    history.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
+    history.js?basepath=/pathtosite/ - the base path to the site; defaults to the root "/".
     history.js?redirect=true - enable link translation.
-    history.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
+    history.js?type=/ - substitute the string after the anchor; by default, nothing is substituted.
 
 You can also combine options:
 
@@ -167,7 +161,7 @@ You can also combine options:
 
 Demo Site: http://history.spb-piksel.ru/
 
-I'm on Twitter: https://twitter.com/DimaPakhtinov
+Follow me on Twitter: https://twitter.com/DimaPakhtinov
 
 
 -------------------------------------------------------------------------------------------------------------
