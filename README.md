@@ -195,7 +195,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
                     history.pushState( null, null, this.href );
 
 
-                    // тут можете вызвать подгруздку данных и т.п.
+                    // тут можете вызвать подгрузку данных и т.п.
 
 
                     // не даем выполнить действие по умолчанию
@@ -226,7 +226,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
                     var returnLocation = history.location || document.location;
 
 
-                    // тут можете вызвать подгруздку данных и т.п.
+                    // тут можете вызвать подгрузку данных и т.п.
 
 
                     // просто сообщение
@@ -259,7 +259,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
                     history.pushState( null, null, this.href );
 
 
-                    // тут можете вызвать подгруздку данных и т.п.
+                    // тут можете вызвать подгрузку данных и т.п.
 
 
                     // не даем выполнить действие по умолчанию
@@ -282,7 +282,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
                     var returnLocation = history.location || document.location;
 
 
-                    // тут можете вызвать подгруздку данных и т.п.
+                    // тут можете вызвать подгрузку данных и т.п.
 
 
                     // просто сообщение
