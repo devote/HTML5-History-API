@@ -11,7 +11,7 @@ Example of using the library in the pure JS context:
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="history-2.0.2.js"></script>
+        <script type="text/javascript" src="history.js"></script>
         <script type="text/javascript">
             window.onload = function() {
 
@@ -74,7 +74,7 @@ Example of using the library along with JQuery:
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="history-2.0.2.js"></script>
+        <script type="text/javascript" src="history.js"></script>
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
             $(function() {
@@ -185,7 +185,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="history-2.0.2.js"></script>
+        <script type="text/javascript" src="history.js"></script>
         <script type="text/javascript">
             window.onload = function() {
 
@@ -248,7 +248,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="history-2.0.2.js"></script>
+        <script type="text/javascript" src="history.js"></script>
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
             $(function() {

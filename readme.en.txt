@@ -13,7 +13,7 @@ on pure JS:
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.3.js"></script>
+            <script type="text/javascript" src="history.js"></script>
             <script type="text/javascript">
                 window.onload = function() {
     
@@ -74,7 +74,7 @@ And now show an example in conjunction with jQuery:
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.3.js"></script>
+            <script type="text/javascript" src="history.js"></script>
             <script type="text/javascript" src="jquery.js"></script>
             <script type="text/javascript">
                 $(function() {
@@ -147,12 +147,12 @@ Using the popstate event in conjunction jQuery:
 
 
 You can use the advanced configuration library:
-	history-1.2.6.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
-	history-1.2.6.min.js?redirect=true - enable link translation.
-	history-1.2.6.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
+	history.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
+	history.min.js?redirect=true - enable link translation.
+	history.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
 
 You can also combine options:
-	history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
+	history.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
 Demo Site: http://history.spb-piksel.ru/
 

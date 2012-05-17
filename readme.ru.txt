@@ -13,7 +13,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.3.js"></script>
+            <script type="text/javascript" src="history.js"></script>
             <script type="text/javascript">
                 window.onload = function() {
 
@@ -74,7 +74,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <script type="text/javascript" src="history-2.0.3.js"></script>
+            <script type="text/javascript" src="history.js"></script>
             <script type="text/javascript" src="jquery.js"></script>
             <script type="text/javascript">
                 $(function() {
@@ -147,12 +147,12 @@
 
 
 Вы можете использовать дополнительные параметры конфигурации библиотеки:
-	history-1.2.6.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
-	history-1.2.6.min.js?redirect=true - включить преобразование ссылок.
-	history-1.2.6.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
+	history.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
+	history.min.js?redirect=true - включить преобразование ссылок.
+	history.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
 
 Также вы можете комбинировать опции:
-	history-1.2.6.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
+	history.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
 
 Демо-сайт: http://history.spb-piksel.ru/
 
