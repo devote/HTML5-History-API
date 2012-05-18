@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.0 beta
+ * history API JavaScript Library v3.0.1 beta
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 17-05-2012
+ * Update: 18-05-2012
  */
 
 (function( window, True, False, Null, undefined ){
@@ -39,6 +39,8 @@
 		historyPushState = windowHistory.pushState,
 		historyReplaceState = windowHistory.replaceState,
 		JSON = window.JSON || {},
+		JSONparse = JSON.parse,
+		JSONstringify = JSON.stringify,
 		sessionStorage = window.sessionStorage,
 		defineProp = Object.defineProperty,
 		defineGetter = Object.prototype.__defineGetter__,
@@ -368,14 +370,13 @@
 
 	JSONStringify = (function( undefined ) {
 
-		if ( JSON.stringify ) {
-			return JSON.stringify;
+		if ( JSONstringify ) {
+			return JSONstringify;
 		}
 
 		function quote( string ) {
 
-			var 
-				escapable = /[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+			var escapable = /[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
 			    meta = {'\b': '\\b','\t': '\\t','\n': '\\n','\f': '\\f','\r': '\\r','"': '\\"','\\': '\\\\'};
 
 			escapable.lastIndex = 0;
@@ -388,8 +389,7 @@
 
 		function str( value ) {
 
-			var 
-				isArray, result, k,
+			var isArray, result, k,
 			    n = ( typeof value ).charCodeAt( 2 );
 
 			       // string
@@ -428,7 +428,7 @@
 	})(),
 
 	JSONParse = function( source ) {
-		return source ? JSON.parse ? JSON.parse( source ) : (new Function( "return " + source ))() : Null;
+		return source ? JSONparse ? JSONparse( source ) : (new Function( "return " + source ))() : Null;
 	},
 
 	historyStorage = function( state ) {
@@ -539,7 +539,9 @@
 
 			if ( eventsList[ event ] ) {
 				eventsList[ event ].push( listener );
-				!api && fireInitialState();
+				if ( !api && eventsListPopState === eventsList[ event ] ) {
+					fireInitialState();
+				}
 			} else {
 				addEvent( event, listener, capture, aWantsUntrusted );
 			}
@@ -637,6 +639,12 @@
 				windowLocation.href = basepath + '#' + path.
 					replace( new RegExp( "^" + basepath, "i" ), sets["type"] ) + search + windowLocation.hash;
 			}
+		}
+
+		if ( !JSONparse && !JSONstringify ) {
+			JSON.parse = JSONParse;
+			JSON.stringify = JSONStringify;
+			window.JSON = JSON;
 		}
 
 		return change;
