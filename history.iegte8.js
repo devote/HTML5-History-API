@@ -98,13 +98,13 @@
 		var _href, relative, special, nohash, host, port, pathname,
 		    re = new RegExp( "^" + sets["basepath"], "i" );
 
-		return function( href ) {
+		return function( href, test ) {
 
 			if ( !href ) {
 
 				href = windowLocation.href;
 
-				if ( !api ) {
+				if ( !api || test ) {
 					// form the absolute link from the hash
 					href = windowLocation.protocol + "//" +
 						windowLocation.host + sets["basepath"] +
@@ -601,7 +601,7 @@
 		if ( sets["redirect"] && window.parent.frames.length === 0 ) {
 
 			var
-				relative = normalizeUrl()._relative,
+				relative = normalizeUrl( Null, True )._relative,
 				search = windowLocation.search,
 				path = windowLocation.pathname,
 				basepath = sets["basepath"];
