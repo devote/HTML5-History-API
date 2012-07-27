@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.1.0 beta
+ * history API JavaScript Library v3.1.1 beta
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 20-05-2012
+ * Update: 27-07-2012
  */
 
 (function( window, True, False, Null, undefined ) {
@@ -598,7 +598,7 @@
 			}, 100);
 		}
 
-		if ( sets["redirect"] && window.parent.frames.length === 0 ) {
+		if ( sets["redirect"] && window.top == window.self ) {
 
 			var
 				relative = normalizeUrl( Null, True )._relative,
