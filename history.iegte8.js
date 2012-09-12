@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.1.1 beta
+ * history API JavaScript Library v3.1.2 beta
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 27-07-2012
+ * Update: 12-09-2012
  */
 
 (function( window, True, False, Null, undefined ) {
@@ -42,7 +42,7 @@
 		hasOwnProperty = Object.prototype.hasOwnProperty,
 		toString = Object.prototype.toString,
 		// if we are in Internet Explorer
-		msie = eval( "/*@cc_on (@_jscript_version+'').replace(/\\d\\./, '');@*/"),
+		msie = +(((window.eval && eval("/*@cc_on 1;@*/") && /msie (\d+)/i.exec(navigator.userAgent)) || [])[1] || 0),
 		// unique ID of the library needed to run VBScript in IE
 		libID = ( new Date() ).getTime(),
 		// counter of created classes in VBScript
