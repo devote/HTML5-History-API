@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.1.2 beta
+ * history API JavaScript Library v3.1.3 beta
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 12-09-2012
+ * Update: 24-09-2012
  */
 
 (function( window, True, False, Null, undefined ) {
