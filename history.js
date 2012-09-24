@@ -693,6 +693,9 @@
 				if ( relative != basepath && (new RegExp( "^" + basepath + "$", "i" )).test( path ) ) {
 					windowLocation.href = relative;
 				}
+				if ((new RegExp( "^" + basepath + "$", "i" )).test( path + '/' )){
+					windowLocation.href = basepath;
+				}else
 				if ( !(new RegExp( "^" + basepath, "i" )).test( path ) ) {
 					windowLocation.href = path.replace(/^\//, basepath ) + search;
 				}
