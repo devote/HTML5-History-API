@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.1.3 beta
+ * history API JavaScript Library v3.2.0
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 24-09-2012
+ * Update: 11-10-2012
  */
 
 (function( window, True, False, Null, undefined ) {
@@ -21,6 +21,8 @@
 	var
 		// Symlink for document
 		document = window.document,
+		// HTML tag
+		documentElement = document.documentElement,
 		// preserve original object of History
 		windowHistory = window.history || {},
 		// obtain a reference to the Location object
@@ -574,8 +576,35 @@
 
 		}, False );
 
-		History["fixURL"] = function( url ) {
-			return normalizeUrl( url )._relative;
+		History["redirect"] = function( type, basepath ) {
+
+			sets["type"] = type === undefined ? sets["type"] : type;
+			sets["basepath"] = basepath === undefined ? sets["basepath"] : basepath;
+
+			if ( window.top == window.self ) {
+
+				var
+					relative = normalizeUrl( Null, True )._relative,
+					search = windowLocation.search,
+					path = windowLocation.pathname,
+					basepath = sets["basepath"];
+
+				if ( api ) {
+
+					if ( relative != basepath && (new RegExp( "^" + basepath + "$", "i" )).test( path ) ) {
+						windowLocation.href = relative;
+					}
+
+					if ( ( new RegExp( "^" + basepath + "$", "i" ) ).test( path + '/' ) ) {
+						windowLocation.href = basepath;
+					} else if ( !(new RegExp( "^" + basepath, "i" )).test( path ) ) {
+						windowLocation.href = path.replace(/^\//, basepath ) + search;
+					}
+				} else if ( path != basepath ) {
+					windowLocation.href = basepath + '#' + path.
+						replace( new RegExp( "^" + basepath, "i" ), sets["type"] ) + search + windowLocation.hash;
+				}
+			}
 		}
 
 		History = createStaticObject( History, VBInc ? HistoryAccessors : windowHistory.state === undefined ? {
@@ -681,28 +710,42 @@
 			}, 100);
 		}
 
-		if ( sets["redirect"] && window.top == window.self ) {
+		if ( sets["redirect"] ) {
+			History["redirect"]();
+		}
 
-			var
-				relative = normalizeUrl( Null, True )._relative,
-				search = windowLocation.search,
-				path = windowLocation.pathname,
-				basepath = sets["basepath"];
+		if ( !api ) {
+			// 
+			document[ _a ]( eventPrefix + "click", function( e ) {
+				var
+					event = e || window.event,
+					target = event.target || event.srcElement,
+					defaultPrevented = "defaultPrevented" in event ? event.defaultPrevented : event.returnValue === False;
 
-			if ( api ) {
-				if ( relative != basepath && (new RegExp( "^" + basepath + "$", "i" )).test( path ) ) {
-					windowLocation.href = relative;
+				if ( target && target.nodeName === "A" && !defaultPrevented ) {
+
+					e = normalizeUrl( target.getAttribute( "href", 2 ), True );
+
+					if ( e._hash && e._hash !== "#" && e._hash === e._href.replace( normalizeUrl()._href.split( "#" ).shift(), "" ) ) {
+
+						history.location.hash = e._hash;
+
+						e = e._hash.replace( /^#/, '' );
+
+						if ( ( target = document.getElementById( e ) ) && target.id === e && target.nodeName === "A" ) {
+							var rect = target.getBoundingClientRect();
+							window.scrollTo( ( documentElement.scrollLeft || 0 ),
+								rect.top + ( documentElement.scrollTop || 0 ) - ( documentElement.clientTop || 0 ) );
+						}
+
+						if ( event.preventDefault ) {
+							event.preventDefault();
+						} else {
+							event.returnValue = false;
+						}
+					}
 				}
-				if ((new RegExp( "^" + basepath + "$", "i" )).test( path + '/' )){
-					windowLocation.href = basepath;
-				}else
-				if ( !(new RegExp( "^" + basepath, "i" )).test( path ) ) {
-					windowLocation.href = path.replace(/^\//, basepath ) + search;
-				}
-			} else if ( path != basepath ) {
-				windowLocation.href = basepath + '#' + path.
-					replace( new RegExp( "^" + basepath, "i" ), sets["type"] ) + search + windowLocation.hash;
-			}
+			}, False );
 		}
 
 		return change;
@@ -773,7 +816,7 @@
 			hashCheckerHandler = setInterval( checker, 100 );
 
 			iframe.src = "javascript:true;";
-			iframe = document.documentElement.firstChild.appendChild( iframe ).contentWindow;
+			iframe = documentElement.firstChild.appendChild( iframe ).contentWindow;
 
 			History.pushState = pushState = function( state, title, url, replace, lfirst ) {
 
