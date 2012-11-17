@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.2.0
+ * history API JavaScript Library v3.2.1
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 11-10-2012
+ * Update: 17-11-2012
  */
 
 (function( window, True, False, Null, undefined ) {
@@ -113,14 +113,14 @@
 						( href.replace( /^[^#]*/, '' ) || "#" ).
 						replace( new RegExp( "^#[\/]?(?:" + sets["type"] + ")?" ), "" );
 				}
-			} else if ( !api ) {
+			} else if ( !api || msie ) {
 
 				var current = normalizeUrl(),
 				    _pathname = current._pathname,
 				    _protocol = current._protocol;
 
 				// convert relative link to the absolute
-				href = /^(?:[a-z]+\:)?\/\//.test( href ) ?
+				href = /^(?:[\w0-9]+\:)?\/\//.test( href ) ?
 					href.indexOf( "/" ) === 0 ? _protocol + href :
 					href : _protocol + "//" + current._host + (
 					href.indexOf( "/" ) === 0 ? href :
