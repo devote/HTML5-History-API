@@ -1,7 +1,7 @@
 /*
  * history API JavaScript Library v3.2.1
  *
- * Support: IE6+, FF3+, Opera 9+, Safari, Chrome
+ * Support: IE8+, FF3+, Opera 9+, Safari, Chrome
  *
  * Copyright 2011-2012, Dmitriy Pakhtinov ( spb.piksel@gmail.com )
  *
@@ -49,8 +49,6 @@
 		libID = ( new Date() ).getTime(),
 		// counter of created classes in VBScript
 		VBInc = ( defineProp || defineGetter ) && ( !msie || msie > 8 ) ? 0 : 1,
-		// If IE version 7 or lower to add iframe in DOM
-		iframe = msie < 8 ? document.createElement( 'iframe' ) : False,
 
 		// original methods text links
 		_a, _r, _d,
@@ -193,7 +191,7 @@
 	HistoryAccessors = {
 		"state": {
 			get: function() {
-				return iframe && iframe["storage"] || historyStorage()[ History.location.href ] || Null;
+				return historyStorage()[ History.location.href ] || Null;
 			}
 		},
 		"length": {
@@ -285,25 +283,8 @@
 		},
 		"hash": {
 			set: function( val ) {
-
-				var
-					hash = ( val.indexOf( "#" ) === 0 ? val : "#" + val ),
-					urlObject = normalizeUrl();
-
-				if ( iframe ) {
-
-					if ( hash != urlObject._hash ) {
-
-						History.pushState( Null, Null, urlObject._nohash + hash );
-
-						hashChanged({
-							oldURL: urlObject._href
-						});
-					}
-				} else {
-
-					windowLocation.hash = "#" + urlObject._nohash + hash;
-				}
+				windowLocation.hash = "#" + normalizeUrl()._nohash +
+							( val.indexOf( "#" ) === 0 ? val : "#" + val );
 			},
 			get: function() {
 				return normalizeUrl()._hash;
@@ -417,73 +398,9 @@
 		return tmp;
 	},
 
-	JSONStringify = JSON.stringify || (function( undefined ) {
-
-		function quote( string ) {
-
-			var
-				escapable = /[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-				meta = {'\b': '\\b','\t': '\\t','\n': '\\n','\f': '\\f','\r': '\\r','"': '\\"','\\': '\\\\'};
-
-			escapable.lastIndex = 0;
-
-			return escapable.test( string ) ? '"' + string.replace( escapable, function( a ) {
-				var c = meta[ a ];
-				return typeof c === 'string' ? c : '\\u' + ( '0000' + a.charCodeAt( 0 ).toString( 16 ) ).slice( -4 );
-			}) + '"' : '"' + string + '"';
-		}
-
-		var str = function( value ) {
-
-			var
-				isArray, result, k,
-				n = ( typeof value ).charCodeAt( 2 );
-
-			// string
-			return n === 114 ? quote( value ) :
-			// number
-			n === 109 ? isFinite( value ) ? String( value ) : 'null' :
-			// boolean, null
-			n === 111 || n === 108 ? String( value ) :
-			// object
-			n === 106 ? function() {
-
-				if ( !value ) return 'null';
-
-				isArray = toString.apply( value ) === '[object Array]';
-
-				result = isArray ? "[" : "{";
-
-				if ( isArray ) {
-					for( k = 0; k < value.length; k++ ) {
-						result += ( k == 0 ? "" : "," ) + str( value[ k ] );
-					}
-				} else {
-					for( k in value ) {
-						if ( hasOwnProperty.call( value, k ) && value[ k ] !== undefined ) {
-							result += ( result.length == 1 ? "" : "," ) + quote( k ) + ":" + str( value[ k ] );
-						}
-					}
-				}
-
-				return result + ( isArray ? "]" : "}" );
-
-			}() : undefined;
-		}
-
-		return str;
-	})(),
-
-	JSONParse = (function() {
-		var parse = JSON.parse;
-		return function( source ) {
-			return source ? parse ? parse( source ) : (new Function( "return " + source ))() : Null;
-		}
-	})(),
-
 	historyStorage = function( state ) {
-		return sessionStorage ? state ? sessionStorage.setItem( '__hitoryapi__', JSONStringify( state ) ) :
-				JSONParse( sessionStorage.getItem( '__hitoryapi__' ) ) || {} : {};
+		return sessionStorage ? state ? sessionStorage.setItem( '__hitoryapi__', JSON.stringify( state ) ) :
+				JSON.parse( sessionStorage.getItem( '__hitoryapi__' ) ) || {} : {};
 	},
 
 	fireStateChange = function( type, oldURL, newURL ) {
@@ -514,7 +431,7 @@
 		}
 	},
 
-	hashChanged = (function() {
+	hashChanged = ( !msie || msie > 7 ) && (function() {
 
 		var
 			windowPopState = window.onpopstate || Null,
@@ -748,143 +665,57 @@
 			}, False );
 		}
 
-		return change;
-	})();
+		History.pushState = function( state, title, url, replace ) {
 
-	History.pushState = function( state, title, url, replace ) {
+			var
+				stateObject = historyStorage(),
+				currentHref = normalizeUrl()._href,
+				urlObject = url && normalizeUrl( url );
 
-		var
-			stateObject = historyStorage(),
-			currentHref = normalizeUrl()._href,
-			urlObject = url && normalizeUrl( url );
+			initialFire = 0;
+			url = urlObject ? urlObject._href : currentHref;
 
-		initialFire = 0;
-		url = urlObject ? urlObject._href : currentHref;
-
-		if ( replace && stateObject[ currentHref ] ) {
-			delete stateObject[ currentHref ];
-		}
-
-		if ( ( !api || initialState ) && sessionStorage && state ) {
-			stateObject[ url ] = state;
-			historyStorage( stateObject );
-			state = Null;
-		}
-
-		if ( historyPushState && historyReplaceState ) {
-			if ( replace ) {
-				historyReplaceState.call( History, state, title, url );
-			} else {
-				historyPushState.call( History, state, title, url );
-			}
-		} else if ( urlObject && urlObject._relative != normalizeUrl()._relative ) {
-			skipHashChange = 1;
-			if ( replace ) {
-				windowLocation.replace( "#" + urlObject._special );
-			} else {
-				windowLocation.hash = urlObject._special;
-			}
-		}
-	}
-
-	History.replaceState = function( state, title, url ) {
-		History.pushState( state, title, url, 1 );
-	}
-
-	if ( VBInc ) {
-		// replace the original History object in IE
-		window.history = History;
-
-		// If IE version 7 or lower to the enable iframe navigation
-		(function( cookie, currentHref ) {
-
-			if ( !iframe ) return;
-
-			var pushState, hashCheckerHandler,
-
-			checker = function() {
-				var href = normalizeUrl()._href;
-				if ( currentHref != href ) {
-					hashChanged({
-						oldURL: currentHref,
-						newURL: currentHref = href
-					});
-				}
+			if ( replace && stateObject[ currentHref ] ) {
+				delete stateObject[ currentHref ];
 			}
 
-			// starting interval for check hash
-			hashCheckerHandler = setInterval( checker, 100 );
+			if ( ( !api || initialState ) && sessionStorage && state ) {
+				stateObject[ url ] = state;
+				historyStorage( stateObject );
+				state = Null;
+			}
 
-			iframe.src = "javascript:true;";
-			iframe = documentElement.firstChild.appendChild( iframe ).contentWindow;
-
-			History.pushState = pushState = function( state, title, url, replace, lfirst ) {
-
-				var i = iframe.document,
-					content = [ '<script>', 'lfirst=1;', ,'storage=' + JSONStringify( state ) + ';', '</script>' ],
-					urlObject = url && normalizeUrl( url );
-
-				if ( !urlObject ) {
-					iframe["storage"] = state;
-					return;
-				}
-
-				if ( !lfirst ) {
-					clearInterval( hashCheckerHandler );
-				}
-
+			if ( historyPushState && historyReplaceState ) {
 				if ( replace ) {
-					if ( iframe["lfirst"] ) {
-						history.back();
-						pushState( state, title, urlObject._href, 0, 1 );
-					} else {
-						iframe["storage"] = state;
-						windowLocation.replace( "#" + urlObject._special );
-					}
-				} else if ( urlObject._href != currentHref || lfirst ) {
-					if ( !iframe["lfirst"] ) {
-						iframe["lfirst"] = 1;
-						pushState( iframe["storage"], title, currentHref, 0, 1 );
-					}
-					content[ 2 ] = 'parent.location.hash="' + urlObject._special.replace( /"/g, '\\"' ) + '";';
-					i.open(); i.write( content.join("") ); i.close();
+					historyReplaceState.call( History, state, title, url );
+				} else {
+					historyPushState.call( History, state, title, url );
 				}
-
-				if ( !lfirst ) {
-					currentHref = normalizeUrl()._href;
-					hashCheckerHandler = setInterval( checker, 100 );
+			} else if ( urlObject && urlObject._relative != normalizeUrl()._relative ) {
+				skipHashChange = 1;
+				if ( replace ) {
+					windowLocation.replace( "#" + urlObject._special );
+				} else {
+					windowLocation.hash = urlObject._special;
 				}
 			}
+		}
 
-			addEvent( eventPrefix + "unload", function() {
-				if ( iframe["storage"] ) {
-					var state = {};
-					state[ normalizeUrl()._href ] = iframe["storage"];
-					document.cookie = "_historyAPI=" + escape( JSONStringify( state ) );
-				}
-				clearInterval( hashCheckerHandler );
-			}, False );
+		History.replaceState = function( state, title, url ) {
+			History.pushState( state, title, url, 1 );
+		}
 
-			if ( cookie.length > 1 ) {
-				cookie = unescape( cookie.pop().split( ";" ).shift() );
-				try {
-					iframe["storage"] = JSONParse( cookie )[ normalizeUrl()._href ];
-				} catch( _e_ ) {}
-			}
+		if ( VBInc ) {
+			// replace the original History object in IE 8
+			window.history = History;
 
-			if ( !JSON.parse && !JSON.stringify ) {
-				JSON.parse = JSONParse;
-				JSON.stringify = JSONStringify;
-				window.JSON = JSON;
-			}
+		} else {
+			// Add other browsers to emulate variable
+			// The object of History, thus, we can learn
+			// If the browser has native support for working with history
+			window.history["emulate"] = !api;
+		}
 
-		})( document.cookie.split( "_historyAPI=" ), normalizeUrl()._href );
-
-	} else {
-		// Add other browsers to emulate variable
-		// The object of History, thus, we can learn
-		// If the browser has native support for working with history
-		window.history["emulate"] = !api;
-	}
+	})();
 
 })( window, true, false, null );
