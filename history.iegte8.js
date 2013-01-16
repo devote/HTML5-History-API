@@ -1,9 +1,9 @@
 /*
- * history API JavaScript Library v3.2.1
+ * history API JavaScript Library v3.2.2
  *
- * Support: IE8+, FF3+, Opera 9+, Safari, Chrome
+ * Support: IE8+, FF3+, Opera 9+, Safari, Chrome, Firefox and other
  *
- * Copyright 2011-2012, Dmitriy Pakhtinov ( spb.piksel@gmail.com )
+ * Copyright 2011-2013, Dmitriy Pakhtinov ( spb.piksel@gmail.com )
  *
  * http://spb-piksel.ru/
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 17-11-2012
+ * Update: 16-01-2013
  */
 
 (function( window, True, False, Null, undefined ) {
@@ -81,7 +81,7 @@
 
 		// parse GET parameters for internal settings.
 		for( i = 0; el[ i ]; i++ ) {
-			if ( m = /(.*)\/(?:history|spike)(?:-\d\.\d(?:\.\d)?\w?)?(?:\.min)?.js\?(.*)$/i.exec( el[ i ].src ) ||
+			if ( m = /(.*)\/(?:history|spike)(?:\.iegte8)?(?:-\d\.\d(?:\.\d)?\w?)?(?:\.min)?.js\?(.*)$/i.exec( el[ i ].src ) ||
 				( i === el.length - 1 && ( m = el[ i ].src.split( "?" ) ).length === 2 && ( m[ 2 ] = m[ 1 ] ) && m ) ) {
 				for( i = 0, s = m[ 2 ].split( "&" ); s[ i ]; ) {
 					m = s[ i++ ].split( "=" );
@@ -537,7 +537,7 @@
 		Location = createStaticObject( Location, LocationAccessors );
 
 		// overwrite addEventListener/attachEvent
-		window[ _a ] = function( event, listener, capture, aWantsUntrusted ) {
+		window[ _a ] = function( event, listener, capture ) {
 
 			if ( eventsList[ event ] ) {
 				eventsList[ event ].push( listener );
@@ -545,7 +545,13 @@
 					fireInitialState();
 				}
 			} else {
-				addEvent( event, listener, capture, aWantsUntrusted );
+				// FireFox support non-standart four argument aWantsUntrusted
+				// https://github.com/devote/HTML5-History-API/issues/13
+				if (arguments.length > 3) {
+					addEvent( event, listener, capture, arguments[3] );
+				} else {
+					addEvent( event, listener, capture );
+				}
 			}
 		}
 
