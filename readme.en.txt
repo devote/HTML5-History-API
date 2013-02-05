@@ -154,6 +154,9 @@ You can use the advanced configuration library:
 You can also combine options:
 	history.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
+Or execute special method in JavaScript:
+    history.redirect( /* type = */ '/', /* basepath = */ '/pathtosite/' );
+
 Demo Site: http://history.spb-piksel.ru/
 
 GitHub Project: https://github.com/devote/HTML5-History-API

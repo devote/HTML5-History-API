@@ -159,6 +159,10 @@ You can also combine options:
 
     history.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
+Or execute special method in JavaScript:
+
+    history.redirect( /* type = */ '/', /* basepath = */ '/pathtosite/' );
+
 Demo Site: http://history.spb-piksel.ru/
 
 Follow me on Twitter: https://twitter.com/DimaPakhtinov
@@ -332,6 +336,10 @@ $( window ).bind( 'popstate', function( event ) {
 Также вы можете комбинировать опции:
 
     history.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
+
+Или выполнить специальный метод в JavaScript:
+
+    history.redirect( /* type = */ '/', /* basepath = */ '/pathtosite/' );
 
 Демо-сайт: http://history.spb-piksel.ru/
 

@@ -154,6 +154,9 @@
 Также вы можете комбинировать опции:
 	history.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
 
+Или выполнить специальный метод в JavaScript:
+    history.redirect( /* type = */ '/', /* basepath = */ '/pathtosite/' );
+
 Демо-сайт: http://history.spb-piksel.ru/
 
 GitHub Проект: https://github.com/devote/HTML5-History-API
