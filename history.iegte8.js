@@ -1,9 +1,9 @@
 /*
- * history API JavaScript Library v3.2.2
+ * history API JavaScript Library v3.2.3
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome, Firefox and other
  *
- * Copyright 2011-2013, Dmitriy Pakhtinov ( spb.piksel@gmail.com )
+ * Copyright 2011-2013, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
  *
  * http://spb-piksel.ru/
  *
@@ -11,9 +11,8 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 16-01-2013
+ * Update: 06-02-2013
  */
-
 (function( window, True, False, Null, undefined ) {
 
 	"use strict";
@@ -97,10 +96,11 @@
 	// function for the preparation of URL-links for further work
 	normalizeUrl = (function( a ) {
 
-		var _href, relative, special, nohash, host, port, pathname,
-		    re = new RegExp( "^" + sets["basepath"], "i" );
+		var _href, relative, special, nohash, host, port, pathname;
 
 		return function( href, test ) {
+
+			var re = new RegExp( "^" + sets["basepath"], "i" );
 
 			if ( !href ) {
 
@@ -495,8 +495,8 @@
 
 		History["redirect"] = function( type, basepath ) {
 
-			sets["type"] = type === undefined ? sets["type"] : type;
-			sets["basepath"] = basepath === undefined ? sets["basepath"] : basepath;
+			sets["type"] = type == Null ? sets["type"] : type;
+			sets["basepath"] = basepath == Null ? sets["basepath"] : basepath;
 
 			if ( window.top == window.self ) {
 
