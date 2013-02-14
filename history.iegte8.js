@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.2.3
+ * history API JavaScript Library v3.2.4
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome, Firefox and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 06-02-2013
+ * Update: 14-02-2013
  */
 (function( window, True, False, Null, undefined ) {
 
@@ -671,7 +671,7 @@
 			}, False );
 		}
 
-		History.pushState = function( state, title, url, replace ) {
+		var pushState = History.pushState = function( state, title, url, replace ) {
 
 			var
 				stateObject = historyStorage(),
@@ -708,7 +708,7 @@
 		}
 
 		History.replaceState = function( state, title, url ) {
-			History.pushState( state, title, url, 1 );
+			pushState( state, title, url, 1 );
 		}
 
 		if ( VBInc ) {

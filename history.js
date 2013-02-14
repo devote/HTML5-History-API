@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.2.3
+ * history API JavaScript Library v3.2.4
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome, Firefox and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 06-02-2013
+ * Update: 14-02-2013
  */
 (function( window, True, False, Null, undefined ) {
 
@@ -757,7 +757,7 @@
 		return change;
 	})();
 
-	History.pushState = function( state, title, url, replace ) {
+	var pushState = function( state, title, url, replace ) {
 
 		var
 			stateObject = historyStorage(),
@@ -794,7 +794,7 @@
 	}
 
 	History.replaceState = function( state, title, url ) {
-		History.pushState( state, title, url, 1 );
+		pushState( state, title, url, 1 );
 	}
 
 	if ( VBInc ) {
@@ -806,7 +806,7 @@
 
 			if ( !iframe ) return;
 
-			var pushState, hashCheckerHandler,
+			var hashCheckerHandler,
 
 			checker = function() {
 				var href = normalizeUrl()._href;
@@ -824,7 +824,7 @@
 			iframe.src = "javascript:true;";
 			iframe = documentElement.firstChild.appendChild( iframe ).contentWindow;
 
-			History.pushState = pushState = function( state, title, url, replace, lfirst ) {
+			pushState = function( state, title, url, replace, lfirst ) {
 
 				var i = iframe.document,
 					content = [ '<script>', 'lfirst=1;', ,'storage=' + JSONStringify( state ) + ';', '</script>' ],
@@ -892,5 +892,7 @@
 		// If the browser has native support for working with history
 		window.history["emulate"] = !api;
 	}
+
+	History.pushState = pushState;
 
 })( window, true, false, null );
