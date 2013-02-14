@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.2.4
+ * history API JavaScript Library v3.2.5
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome, Firefox and other
  *
@@ -669,6 +669,12 @@
 					}
 				}
 			}, False );
+		} else {
+			addEvent(eventPrefix + "load", function() {
+				setTimeout(function() {
+					initialFire = 0
+				},0);
+			}, False);
 		}
 
 		var pushState = History.pushState = function( state, title, url, replace ) {
@@ -678,7 +684,6 @@
 				currentHref = normalizeUrl()._href,
 				urlObject = url && normalizeUrl( url );
 
-			initialFire = 0;
 			url = urlObject ? urlObject._href : currentHref;
 
 			if ( replace && stateObject[ currentHref ] ) {
