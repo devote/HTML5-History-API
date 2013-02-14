@@ -757,7 +757,7 @@
 		return change;
 	})();
 
-	History.pushState = function( state, title, url, replace ) {
+	function localPushState( state, title, url, replace ) {
 
 		var
 			stateObject = historyStorage(),
@@ -793,8 +793,12 @@
 		}
 	}
 
+	History.pushState = function( state, title, url) {
+		localPushState( state, title, url );
+	}
+
 	History.replaceState = function( state, title, url ) {
-		History.pushState( state, title, url, 1 );
+		localPushState( state, title, url, 1 );
 	}
 
 	if ( VBInc ) {
