@@ -1,5 +1,5 @@
 /*
- * history API JavaScript Library v3.2.6
+ * history API JavaScript Library v3.2.6.1
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome, Firefox and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 26-04-2013
+ * Update: 07-05-2013
  */
 (function(window, True, False, Null, undefined) {
 
@@ -399,7 +399,7 @@
 
         historyStorage = function(state) {
             return sessionStorage ? state ? sessionStorage.setItem('__hitoryapi__', JSON.stringify(state)) :
-                JSON.parse(sessionStorage.getItem('__hitoryapi__')) || {} : {};
+                JSON.parse('' + sessionStorage.getItem('__hitoryapi__')) || {} : {};
         },
 
         fireStateChange = function(type, oldURL, newURL) {
