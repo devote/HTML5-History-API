@@ -1,11 +1,8 @@
 {
   "name": "html5-history-api",
-  "version": "0.0.0",
+  "version": "3.2.6",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "main": "history.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/devote/HTML5-History-API.git"
@@ -18,6 +15,5 @@
   ],
   "author": "Dmitrii Pakhtinov",
   "license": "GPL/MIT",
-  "readmeFilename": "readme.en.txt",
-  "gitHead": "09eba41755c48c1dd69884a8f0d382ded557c181"
+  "readmeFilename": "readme.en.txt"
 }
