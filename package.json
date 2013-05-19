@@ -1,6 +1,6 @@
 {
   "name": "html5-history-api",
-  "version": "3.2.6",
+  "version": "4.0",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "main": "history.js",
   "repository": {
