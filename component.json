@@ -1,6 +1,6 @@
 {
   "name": "history",
-  "version": "4.0",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/devote/HTML5-History-API"
