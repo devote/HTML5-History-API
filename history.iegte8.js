@@ -1,5 +1,5 @@
 /*
- * History API JavaScript Library v4.0.0
+ * History API JavaScript Library v4.0.1
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 19.05.13 22:46
+ * Update: 11.06.13 01:42
  */
 (function(window) {
     // symlink to document
@@ -100,20 +100,18 @@
             settings["type"] = type = type == null ? settings["type"] : type;
             if (window.top == window.self) {
                 var relative = parseURL(null, false, true)._relative;
-                var search = windowLocation.search;
-                var path = windowLocation.pathname;
+                var path = windowLocation.pathname + windowLocation.search;
                 if (isSupportHistoryAPI) {
+                    path = path.replace(/([^\/])$/, '$1/');
                     if (relative != basepath && (new RegExp("^" + basepath + "$", "i")).test(path)) {
                         windowLocation.replace(relative);
                     }
-                    if ((new RegExp("^" + basepath + "$", "i")).test(path + '/')) {
-                        windowLocation.replace(basepath);
-                    } else if (!(new RegExp("^" + basepath, "i")).test(path)) {
-                        windowLocation.replace(path.replace(/^\//, basepath) + search);
-                    }
                 } else if (path != basepath) {
-                    windowLocation.replace(basepath + '#' + path.
-                        replace(new RegExp("^" + basepath, "i"), type) + search + windowLocation.hash);
+                    path = path.replace(/([^\/])\?/, '$1/?');
+                    if ((new RegExp("^" + basepath, "i")).test(path)) {
+                        windowLocation.replace(basepath + '#' + path.
+                            replace(new RegExp("^" + basepath, "i"), type) + windowLocation.hash);
+                    }
                 }
             }
         },
