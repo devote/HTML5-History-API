@@ -1,11 +1,32 @@
 {
   "name": "history",
+  "repo": "devote/HTML5-History-API",
+  "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "version": "4.0.1",
+  "keywords": ["history", "pushState", "replaceState"],
   "main": [
+    "history.js",
+    "history.iegte8.js"
+  ],
+  "scripts": [
     "history.js",
     "history.iegte8.js"
   ],
   "ignore": [
     "**/*.txt"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/devote/HTML5-History-API"
+  },
+  "author": {
+    "name": "Dmitrii Pakhtinov",
+    "email": "spb.piksel@gmail.com",
+    "url": "http://spb-piksel.ru"
+  },
+  "licenses": [{
+    "type": "GPL3"
+  }, {
+    "type": "MIT"
+  }]
 }
