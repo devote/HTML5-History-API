@@ -4,14 +4,8 @@
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "version": "4.0.1",
   "keywords": ["history", "pushState", "replaceState"],
-  "main": [
-    "history.js",
-    "history.iegte8.js"
-  ],
-  "scripts": [
-    "history.js",
-    "history.iegte8.js"
-  ],
+  "main": "history.js",
+  "scripts": ["history.js"],
   "ignore": [
     "**/*.txt"
   ],
