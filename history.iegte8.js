@@ -1,5 +1,5 @@
 /*
- * History API JavaScript Library v4.0.1
+ * History API JavaScript Library v4.0.2
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,9 +11,11 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 11.06.13 01:42
+ * Update: 16.07.13 00:47
  */
 (function(window) {
+    // Prevent the code from running if there is no window.history object
+    if (!window.history) return;
     // symlink to document
     var document = window.document;
     // HTML element
