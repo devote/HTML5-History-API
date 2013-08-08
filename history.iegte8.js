@@ -1,5 +1,5 @@
 /*
- * History API JavaScript Library v4.0.2
+ * History API JavaScript Library v4.0.3
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 16.07.13 00:47
+ * Update: 08.08.13 18:28
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -761,7 +761,7 @@
             var current = parseURL();
             var expect = parseURL(target.getAttribute("href", 2));
             var isEqualBaseURL = current._href.split('#').shift() === expect._href.split('#').shift();
-            if (isEqualBaseURL) {
+            if (isEqualBaseURL && expect._hash) {
                 if (current._hash !== expect._hash) {
                     historyObject.location.hash = expect._hash;
                 }
