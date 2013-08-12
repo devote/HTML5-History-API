@@ -1,5 +1,5 @@
 /*
- * History API JavaScript Library v4.0.3
+ * History API JavaScript Library v4.0.4
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 08.08.13 18:28
+ * Update: 12.08.13 11:21
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -85,6 +85,21 @@
     };
 
     /**
+     * Fix for Chrome in iOS
+     * See https://github.com/devote/HTML5-History-API/issues/29
+     */
+    var fastFixChrome = function(method, args) {
+        var isNeedFix = window.history !== windowHistory;
+        if (isNeedFix) {
+            window.history = windowHistory;
+        }
+        method.apply(windowHistory, args);
+        if (isNeedFix) {
+            window.history = historyObject;
+        }
+    };
+
+    /**
      * Properties that will be replaced/added to object
      * 'window.history', includes the object 'history.location',
      * for a complete the work with the URL address
@@ -127,7 +142,7 @@
          * @param {string} [url]
          */
         pushState: function(state, title, url) {
-            historyPushState && historyPushState.apply(windowHistory, arguments);
+            historyPushState && fastFixChrome(historyPushState, arguments);
             changeState(state, url);
         },
         /**
@@ -142,7 +157,7 @@
          */
         replaceState: function(state, title, url) {
             delete stateStorage[windowLocation.href];
-            historyReplaceState && historyReplaceState.apply(windowHistory, arguments);
+            historyReplaceState && fastFixChrome(historyReplaceState, arguments);
             changeState(state, url, true);
         },
         /**
