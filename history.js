@@ -1,5 +1,5 @@
 /*
- * History API JavaScript Library v4.0.4
+ * History API JavaScript Library v4.0.5
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 12.08.13 11:21
+ * Update: 20.08.13 21:16
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -21,7 +21,7 @@
     // HTML element
     var documentElement = document.documentElement;
     // symlink to sessionStorage
-    var sessionStorage = window['sessionStorage'];
+    var sessionStorage = null;
     // symlink to constructor of Object
     var Object = window['Object'];
     // symlink to JSON Object
@@ -387,7 +387,7 @@
     /**
      * Initializing storage for the custom state's object
      */
-    function storageInitialize(JSON) {
+    function storageInitialize() {
         var storage = '';
         if (sessionStorage) {
             // get cache from the storage in browser
@@ -821,6 +821,15 @@
         });
 
         /**
+         * sessionStorage throws error when cookies are disabled
+         * Chrome content settings when running the site in a Facebook IFrame.
+         * see: https://github.com/devote/HTML5-History-API/issues/34
+         */
+        try {
+            sessionStorage = window['sessionStorage'];
+        } catch(_e_) {}
+
+        /**
          * Includes support for IE6+
          */
         ie6DriverStart();
@@ -883,7 +892,7 @@
 
         // If browser does not support object 'state' in interface 'History'
         if (!isSupportStateObjectInHistory && JSON) {
-            storageInitialize(JSON);
+            storageInitialize();
         }
 
         // track clicks on anchors
