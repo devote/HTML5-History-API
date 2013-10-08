@@ -15,32 +15,33 @@
         <head>
             <script type="text/javascript" src="history.js"></script>
             <script type="text/javascript">
-                window.onload = function() {
-
-                    // функция для ссылок обрабатывается при клике на ссылку
-                    function handlerAnchors() {
-                        // заносим ссылку в историю
-                        history.pushState( null, null, this.href );
-
-
-                        // тут можете вызвать подгруздку данных и т.п.
-
-
-                        // не даем выполнить действие по умолчанию
-                        return false;
-                    }
-
-                    // ищем все ссылки
-                    var anchors = document.getElementsByTagName( 'a' );
-
+                (function(eventInfo) {
                     // вешаем события на все ссылки в нашем документе
-                    for( var i = 0; i < anchors.length; i++ ) {
-                        anchors[ i ].onclick = handlerAnchors;
-                    }
+                    document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
+                        event = event || window.event;
+                        var target = event.target || event.srcElement;
+                        // ищем все ссылки с классом 'ajax'
+                        if (target && target.nodeName === 'A' &&
+                           (' ' + target.className + ' ').indexOf('ajax') >= 0)
+                        {
+                            // заносим ссылку в историю
+                            history.pushState(null, null, target.href);
+
+
+                            // тут можете вызвать подгрузку данных и т.п.
+
+
+                            // не даем выполнить действие по умолчанию
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            } else {
+                                event.returnValue = false;
+                            }
+                        }
+                    }, false);
 
                     // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
-                    window.onpopstate = function( e ) {
-
+                    window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
                         // получаем нормальный объект Location
 
                         /*
@@ -54,18 +55,18 @@
                         var returnLocation = history.location || document.location;
 
 
-                        // тут можете вызвать подгруздку данных и т.п.
+                        // тут можете вызвать подгрузку данных и т.п.
 
 
                         // просто сообщение
-                        alert( "Мы вернулись на страницу со ссылкой: " + returnLocation.href );
-                    }
-                }
+                        alert("We returned to the page with a link: " + returnLocation.href);
+                    }, false);
+                })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
             </script>
         </head>
         <body>
-            <a href="/mylink.html">My Link</a>
-            <a href="/otherlink.html">Other Link</a>
+            <a class="ajax" href="/mylink.html">My Link</a>
+            <a class="ajax" href="/otherlink.html">Other Link</a>
         </body>
     </html>
 
@@ -80,12 +81,12 @@
                 $(function() {
 
                     // ищем все ссылки и вешаем события на все ссылки в нашем документе
-                    $("a").click(function() {
+                    $(document).on('click', 'a.ajax', function() {
                         // заносим ссылку в историю
-                        history.pushState( null, null, this.href );
+                        history.pushState(null, null, this.href);
 
 
-                        // тут можете вызвать подгруздку данных и т.п.
+                        // тут можете вызвать подгрузку данных и т.п.
 
 
                         // не даем выполнить действие по умолчанию
@@ -93,7 +94,7 @@
                     });
 
                     // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
-                    $( window ).bind( "popstate", function( e ) {
+                    $(window).on('popstate', function(e) {
 
                         // получаем нормальный объект Location
 
@@ -108,54 +109,54 @@
                         var returnLocation = history.location || document.location;
 
 
-                        // тут можете вызвать подгруздку данных и т.п.
+                        // тут можете вызвать подгрузку данных и т.п.
 
 
                         // просто сообщение
-                        alert( "Мы вернулись на страницу со ссылкой: " + returnLocation.href );
+                        alert("Мы вернулись на страницу со ссылкой: " + returnLocation.href);
                     });
                 });
             </script>
         </head>
         <body>
-            <a href="/mylink.html">My Link</a>
-            <a href="/otherlink.html">Other Link</a>
+            <a class="ajax" href="/mylink.html">My Link</a>
+            <a class="ajax" href="/otherlink.html">Other Link</a>
         </body>
     </html>
 
 Использование события popstate при обычном чистом JS:
 
-    window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
+    window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
 
         // получение location из объекта window.history
         var loc = history.location || document.location;
 
-        alert( "return to: " + loc );
+        alert("return to: " + loc);
 
     }, false);
 
 
 Использование события popstate в связке jQuery:
 
-	$( window ).bind( 'popstate', function( event ) {
+    $(window).on('popstate', function(e) {
 
         // получение location из объекта window.history
         var loc = history.location || document.location;
 
-        alert( "return to: " + loc );
-	});
+        alert("return to: " + loc);
+    });
 
 
 Вы можете использовать дополнительные параметры конфигурации библиотеки:
-	history.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
-	history.min.js?redirect=true - включить преобразование ссылок.
-	history.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
+    history.min.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
+    history.min.js?redirect=true - включить преобразование ссылок.
+    history.min.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
 
 Также вы можете комбинировать опции:
-	history.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
+    history.min.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
 
 Или выполнить специальный метод в JavaScript:
-    history.redirect( /* type = */ '/', /* basepath = */ '/pathtosite/' );
+    history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
 
 Демо-сайт: http://history.spb-piksel.ru/
 

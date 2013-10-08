@@ -15,57 +15,58 @@ on pure JS:
         <head>
             <script type="text/javascript" src="history.js"></script>
             <script type="text/javascript">
-                window.onload = function() {
-    
-                    // function for the reference is processed when you click on the link
-                    function handlerAnchors() {
-                        // keep the link in the browser history
-                        history.pushState( null, null, this.href );
-    
-    
-                        // here can cause data loading, etc.
-    
-    
-                        // do not give a default action
-                        return false;
-                    }
-    
-                    // looking for all the links
-                    var anchors = document.getElementsByTagName( 'a' );
-    
+                (function(eventInfo) {
                     // hang on the event, all references in this document
-                    for( var i = 0; i < anchors.length; i++ ) {
-                        anchors[ i ].onclick = handlerAnchors;
-                    }
-    
+                    document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
+                        event = event || window.event;
+                        var target = event.target || event.srcElement;
+                        // looking for all the links with 'ajax' class found
+                        if (target && target.nodeName === 'A' &&
+                           (' ' + target.className + ' ').indexOf('ajax') >= 0)
+                        {
+                            // keep the link in the browser history
+                            history.pushState(null, null, target.href);
+
+
+                            // here can cause data loading, etc.
+
+
+                            // do not give a default action
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            } else {
+                                event.returnValue = false;
+                            }
+                        }
+                    }, false);
+
                     // hang on popstate event triggered by pressing back/forward in browser
-                    window.onpopstate = function( e ) {
-    
+                    window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
                         // we get a normal Location object
-    
+
                         /*
-                        * Note, this is the only difference when using this library,
-                        * because the object document.location don't overwritten,
-                        * so library the returns generated "location" object within
-                        * an object window.history, so get it out of "history.location".
-                        * For browsers supporting "history.pushState" get shaped
-                        * object "location" with the usual "document.location".
-						*/
+                         * Note, this is the only difference when using this library,
+                         * because the object document.location cannot be overriden,
+                         * so library the returns generated "location" object within
+                         * an object window.history, so get it out of "history.location".
+                         * For browsers supporting "history.pushState" get generated
+                         * object "location" with the usual "document.location".
+                         */
                         var returnLocation = history.location || document.location;
-    
-    
+
+
                         // here can cause data loading, etc.
-    
-    
+
+
                         // just post
-                        alert( "We returned to the page with a link: " + returnLocation.href );
-                    }
-                }
+                        alert("We returned to the page with a link: " + returnLocation.href);
+                    }, false);
+                })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
             </script>
         </head>
         <body>
-            <a href="/mylink.html">My Link</a>
-            <a href="/otherlink.html">Other Link</a>
+            <a class="ajax" href="/mylink.html">My Link</a>
+            <a class="ajax" href="/otherlink.html">Other Link</a>
         </body>
     </html>
 
@@ -78,84 +79,84 @@ And now show an example in conjunction with jQuery:
             <script type="text/javascript" src="jquery.js"></script>
             <script type="text/javascript">
                 $(function() {
-    
+
                     // looking for all the links and hang on the event, all references in this document
-                    $("a").click(function() {
+                    $(document).on('click', 'a.ajax', function() {
                         // keep the link in the browser history
-                        history.pushState( null, null, this.href );
-    
-    
+                        history.pushState(null, null, this.href);
+
+
                         // here can cause data loading, etc.
-    
-    
+
+
                         // do not give a default action
                         return false;
                     });
-    
+
                     // hang on popstate event triggered by pressing back/forward in browser
-                    $( window ).bind( "popstate", function( e ) {
-    
+                    $(window).on('popstate', function(e) {
+
                         // we get a normal Location object
-    
+
                         /*
                         * Note, this is the only difference when using this library,
-                        * because the object document.location don't overwritten,
+                        * because the object document.location cannot be overriden,
                         * so library the returns generated "location" object within
                         * an object window.history, so get it out of "history.location".
-                        * For browsers supporting "history.pushState" get shaped
+                        * For browsers supporting "history.pushState" get generated
                         * object "location" with the usual "document.location".
-						*/
+                        */
                         var returnLocation = history.location || document.location;
-    
-    
+
+
                         // here can cause data loading, etc.
-    
-    
+
+
                         // just post
-                        alert( "We returned to the page with a link: " + returnLocation.href );
+                        alert("We returned to the page with a link: " + returnLocation.href);
                     });
                 });
             </script>
         </head>
         <body>
-            <a href="/mylink.html">My Link</a>
-            <a href="/otherlink.html">Other Link</a>
+            <a class="ajax" href="/mylink.html">My Link</a>
+            <a class="ajax" href="/otherlink.html">Other Link</a>
         </body>
     </html>
 
 Using the event popstate the usual pure JS:
 
-    window[ window.addEventListener ? 'addEventListener' : 'attachEvent' ]( 'popstate', function( event ) {
+    window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
 
         // receiving location from the window.history object
         var loc = history.location || document.location;
 
-        alert( "return to: " + loc );
+        alert("return to: " + loc);
 
     }, false);
 
 
 Using the popstate event in conjunction jQuery:
 
-	$( window ).bind( 'popstate', function( event ) {
+    $(window).on('popstate', function(e) {
 
         // receiving location from the window.history object
-		var loc = history.location || document.location;
+        var loc = history.location || document.location;
 
-        alert( "return to: " + loc );
-	});
+        alert("return to: " + loc);
+    });
 
 
 You can use the advanced configuration library:
-	history.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
-	history.min.js?redirect=true - enable link translation.
-	history.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
+    history.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
+    history.min.js?redirect=true - enable link translation.
+    history.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
 
 You can also combine options:
-	history.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
+    history.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
 Or execute special method in JavaScript:
-    history.redirect( /* type = */ '/', /* basepath = */ '/pathtosite/' );
+    history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
 
 Demo Site: http://history.spb-piksel.ru/
 
