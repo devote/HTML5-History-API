@@ -150,7 +150,7 @@ Using the popstate event in conjunction jQuery:
 You can use the advanced configuration library:
     history.min.js?basepath=/pathtosite/ - the base path to the site defaults to the root "/".
     history.min.js?redirect=true - enable link translation.
-    history.min.js?type=/ - substitute the string after the anchor, by default, nothing substitutes.
+    history.min.js?type=/ - substitute the string after the anchor, by default "/".
 
 You can also combine options:
     history.min.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.

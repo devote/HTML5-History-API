@@ -154,7 +154,7 @@ Advanced library configuration:
 
     history.js?basepath=/pathtosite/ - the base path to the site; defaults to the root "/".
     history.js?redirect=true - enable link translation.
-    history.js?type=/ - substitute the string after the anchor; by default, nothing is substituted.
+    history.js?type=/ - substitute the string after the anchor; by default "/".
 
 You can also combine options:
 
@@ -333,7 +333,7 @@ $(window).on('popstate', function(e) {
 
     history.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
     history.js?redirect=true - включить преобразование ссылок.
-    history.js?type=/ - подставлять подстроку после якоря, по умолчанию ничего не подставляет.
+    history.js?type=/ - подставлять подстроку после якоря, по умолчанию имеет символ "/".
 
 Также вы можете комбинировать опции:
 
