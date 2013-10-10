@@ -1,5 +1,5 @@
-/*
- * History API JavaScript Library v4.0.5
+/*!
+ * History API JavaScript Library v4.0.6
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
