@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 20.08.13 21:16
+ * Update: 2013-10-10 17:16
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -764,13 +764,26 @@
     }
 
     /**
-     * handler url with anchor for non-HTML5 browsers
+     * Finds the closest ancestor anchor element (including the target itself).
      *
-     * @param e
+     * @param {HTMLElement} target The element to start scanning from.
+     * @return {HTMLElement} An element which is the closest ancestor anchor.
+     */
+    function anchorTarget(target) {
+        while (target) {
+            if (target.nodeName === 'A') return target;
+            target = target.parentNode;
+        }
+    }
+
+    /**
+     * Handles anchor elements with a hash fragment for non-HTML5 browsers
+     *
+     * @param {Event} e
      */
     function onAnchorClick(e) {
         var event = e || window.event;
-        var target = event.target || event.srcElement;
+        var target = anchorTarget(event.target || event.srcElement);
         var defaultPrevented = "defaultPrevented" in event ? event['defaultPrevented'] : event.returnValue === false;
         if (target && target.nodeName === "A" && !defaultPrevented) {
             var current = parseURL();
