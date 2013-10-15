@@ -248,7 +248,7 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
 </html>
 ```
 
-А тепер показываю пример в связке с jQuery:
+А теперь показываю пример в связке с jQuery:
 
 ```html
 <!DOCTYPE html>
