@@ -72,6 +72,8 @@
     var stateStorage = {};
     // in this object will be stored custom handlers
     var eventsList = {};
+    // stored last title
+    var lastTitle = document.title;
 
     /**
      * Properties that will be replaced in the global
@@ -143,12 +145,13 @@
          */
         pushState: function(state, title, url) {
             var t = document.title;
-            if (title != null) {
-                document.title = title;
+            if (lastTitle != null) {
+                document.title = lastTitle;
             }
             historyPushState && fastFixChrome(historyPushState, arguments);
             changeState(state, url);
             document.title = t;
+            lastTitle = title;
         },
         /**
          * The method updates the state object,
@@ -162,13 +165,14 @@
          */
         replaceState: function(state, title, url) {
             var t = document.title;
-            if (title != null) {
-                document.title = title;
+            if (lastTitle != null) {
+                document.title = lastTitle;
             }
             delete stateStorage[windowLocation.href];
             historyReplaceState && fastFixChrome(historyReplaceState, arguments);
             changeState(state, url, true);
             document.title = t;
+            lastTitle = title;
         },
         /**
          * Object 'history.location' is similar to the
