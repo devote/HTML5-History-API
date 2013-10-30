@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.0.6
+ * History API JavaScript Library v4.0.7
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2013-10-10 17:16
+ * Update: 2013-10-30 18:29
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -142,8 +142,13 @@
          * @param {string} [url]
          */
         pushState: function(state, title, url) {
+            var t = document.title;
+            if (title != null) {
+                document.title = title;
+            }
             historyPushState && fastFixChrome(historyPushState, arguments);
             changeState(state, url);
+            document.title = t;
         },
         /**
          * The method updates the state object,
@@ -156,9 +161,14 @@
          * @param {string} [url]
          */
         replaceState: function(state, title, url) {
+            var t = document.title;
+            if (title != null) {
+                document.title = title;
+            }
             delete stateStorage[windowLocation.href];
             historyReplaceState && fastFixChrome(historyReplaceState, arguments);
             changeState(state, url, true);
+            document.title = t;
         },
         /**
          * Object 'history.location' is similar to the
