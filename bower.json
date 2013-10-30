@@ -2,7 +2,7 @@
   "name": "history",
   "repo": "devote/HTML5-History-API",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "keywords": ["history", "pushState", "replaceState"],
   "main": "history.js",
   "scripts": ["history.js"],
