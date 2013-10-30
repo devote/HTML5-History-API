@@ -176,13 +176,13 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
 
 Библиотека эмулирует HTML5 History API в старых браузерах.
 
-Библиотека которая не добавляет ненужные методы заставляя их изучать, а оперирует по спецификации w3c, по интерфейсу History.
+Библиотека, которая не добавляет ненужные методы, заставляя их изучать, а оперирует по спецификации w3c, по интерфейсу History.
 
 Для примера могу привести короткий код как с ней работать.
 
-По принципу мы работаем с HTML5 History API так как описано например тут http://htmlbook.ru/html5/history или по спецификации http://www.w3.org/TR/html5/history.html#the-history-interface
+По принципу мы работаем с HTML5 History API так как описано, например, тут http://htmlbook.ru/html5/history или по спецификации http://www.w3.org/TR/html5/history.html#the-history-interface
 
-То-есть коротенький пример:
+То есть коротенький пример:
 
 на чистом JS:
 
