@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.0.7
+ * History API JavaScript Library v4.0.8
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2013-10-30 18:29
+ * Update: 2013-10-31 16:06
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -346,8 +346,10 @@
      */
     function parseURL(href, isWindowLocation, isNotAPI) {
         var re = /(?:([\w0-9]+:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
-        if (href && !isWindowLocation) {
+        if (href != null && href !== '' && !isWindowLocation) {
             var current = parseURL(), _pathname = current._pathname, _protocol = current._protocol;
+            // convert to type of string
+            href = '' + href;
             // convert relative link to the absolute
             href = /^(?:[\w0-9]+\:)?\/\//.test(href) ? href.indexOf("/") === 0
                 ? _protocol + href : href : _protocol + "//" + current._host + (
