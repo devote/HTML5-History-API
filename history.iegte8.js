@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.0.8
+ * History API JavaScript Library v4.0.9
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2013-10-31 16:06
+ * Update: 2013-11-20 13:03
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -20,8 +20,6 @@
     var document = window.document;
     // HTML element
     var documentElement = document.documentElement;
-    // symlink to sessionStorage
-    var sessionStorage = null;
     // symlink to constructor of Object
     var Object = window['Object'];
     // symlink to JSON Object
@@ -404,33 +402,44 @@
      * Initializing storage for the custom state's object
      */
     function storageInitialize() {
-        var storage = '';
-        if (sessionStorage) {
-            // get cache from the storage in browser
-            storage += sessionStorage.getItem(sessionStorageKey);
-        } else {
-            var cookie = document.cookie.split(sessionStorageKey + "=");
-            if (cookie.length > 1) {
-                storage += (cookie.pop().split(";").shift() || 'null');
+        var sessionStorage;
+        /**
+         * sessionStorage throws error when cookies are disabled
+         * Chrome content settings when running the site in a Facebook IFrame.
+         * see: https://github.com/devote/HTML5-History-API/issues/34
+         * and: http://stackoverflow.com/a/12976988/669360
+         */
+        try {
+            sessionStorage = window['sessionStorage'];
+            sessionStorage.setItem(sessionStorageKey + 't', '1');
+            sessionStorage.removeItem(sessionStorageKey + 't');
+        } catch(_e_) {
+            sessionStorage = {
+                getItem: function(key) {
+                    var cookie = document.cookie.split(key + "=");
+                    return cookie.length > 1 && cookie.pop().split(";").shift() || 'null';
+                },
+                setItem: function(key, value) {
+                    var state = {};
+                    // insert one current element to cookie
+                    if (state[windowLocation.href] = historyObject.state) {
+                        document.cookie = key + '=' + JSON.stringify(state);
+                    }
+                }
             }
         }
+
         try {
-            stateStorage = JSON.parse(storage) || {};
+            // get cache from the storage in browser
+            stateStorage = JSON.parse(sessionStorage.getItem(sessionStorageKey)) || {};
         } catch(_e_) {
             stateStorage = {};
         }
+
         // hang up the event handler to event unload page
         addEvent(eventNamePrefix + 'unload', function() {
-            if (sessionStorage) {
-                // save current state's object
-                sessionStorage.setItem(sessionStorageKey, JSON.stringify(stateStorage));
-            } else {
-                // save the current 'state' in the cookie
-                var state = {};
-                if (state[windowLocation.href] = historyObject.state) {
-                    document.cookie = sessionStorageKey + '=' + JSON.stringify(state);
-                }
-            }
+            // save current state's object
+            sessionStorage.setItem(sessionStorageKey, JSON.stringify(stateStorage));
         }, false);
     }
 
@@ -848,15 +857,6 @@
         arg.replace(/(\w+)(?:=([^&]*))?/g, function(a, key, value) {
             settings[key] = (value || (key === 'basepath' ? '/' : '')).replace(/^(0|false)$/, '');
         });
-
-        /**
-         * sessionStorage throws error when cookies are disabled
-         * Chrome content settings when running the site in a Facebook IFrame.
-         * see: https://github.com/devote/HTML5-History-API/issues/34
-         */
-        try {
-            sessionStorage = window['sessionStorage'];
-        } catch(_e_) {}
 
         /**
          * hang up the event handler to listen to the events hashchange
