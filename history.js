@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.0.9
+ * History API JavaScript Library v4.1.0
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2013-11-20 13:03
+ * Update: 2014-03-24 13:14
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -362,7 +362,8 @@
                 // get hash fragment
                 href = href.replace(/^[^#]*/, '') || "#";
                 // form the absolute link from the hash
-                href = windowLocation.protocol + '//' + windowLocation.host + settings['basepath']
+                // https://github.com/devote/HTML5-History-API/issues/50
+                href = windowLocation.protocol.replace(/:.*$|$/, ':') + '//' + windowLocation.host + settings['basepath']
                     + href.replace(new RegExp("^#[\/]?(?:" + settings["type"] + ")?"), "");
             }
         }
@@ -728,8 +729,12 @@
      * @return void
      */
     function onHashChange(event) {
-        // if not empty lastURL, otherwise skipped the current handler event
-        if (lastURL) {
+        // https://github.com/devote/HTML5-History-API/issues/46
+        var fireNow = lastURL;
+        // new value to lastURL
+        lastURL = windowLocation.href;
+        // if not empty fireNow, otherwise skipped the current handler event
+        if (fireNow) {
             // if checkUrlForPopState equal current url, this means that the event was raised popstate browser
             if (checkUrlForPopState !== windowLocation.href) {
                 // otherwise,
@@ -751,8 +756,6 @@
                 dispatchEvent(event);
             }
         }
-        // new value to lastURL
-        lastURL = windowLocation.href;
     }
 
     /**
