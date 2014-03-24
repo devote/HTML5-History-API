@@ -163,3 +163,14 @@ Demo Site: http://history.spb-piksel.ru/
 GitHub Project: https://github.com/devote/HTML5-History-API
 
 I'm on Twitter: https://twitter.com/DimaPakhtinov
+
+-----------------------------
+Want to thank you for my job?
+
+WebMoney:
+WMR: R258217300226
+WMZ: Z314183434448
+
+Yandex.Money: 41001414127851
+
+Alfa-Bank Card # 5486732005875430 - 11/15
