@@ -171,6 +171,8 @@ Follow me on Twitter: https://twitter.com/DimaPakhtinov
 -----------------------------
 Want to thank you for my job?
 
+PayPal: spb.piksel@gmail.com
+
 WebMoney:
 WMR: R258217300226
 WMZ: Z314183434448
@@ -359,6 +361,8 @@ $(window).on('popstate', function(e) {
 
 -----------------------------------
 Хочешь поблагодарить за мою работу?
+
+PayPal: spb.piksel@gmail.com
 
 WebMoney:
 WMR: R258217300226

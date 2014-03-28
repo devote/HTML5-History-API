@@ -167,6 +167,8 @@ GitHub Проект: https://github.com/devote/HTML5-History-API
 -----------------------------------
 Хочешь поблагодарить за мою работу?
 
+PayPal: spb.piksel@gmail.com
+
 WebMoney:
 WMR: R258217300226
 WMZ: Z314183434448
