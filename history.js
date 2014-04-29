@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.0
+ * History API JavaScript Library v4.1.1
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-03-24 13:14
+ * Update: 2014-04-29 15:22
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -511,6 +511,7 @@
                      * the same names.
                      */
                     window['execScript']('Public ' + prop, 'VBScript');
+                    window['execScript']('var ' + prop + ';', 'JavaScript');
                 } else {
                     try {
                         /**
@@ -1052,7 +1053,7 @@
 
         // testing IE browser
         var msie = window['eval'] && eval("/*@cc_on 1;@*/");
-        if (!msie || +((/msie (\d+)/i.exec(navigator.userAgent) || [, 8])[1]) > 7) {
+        if (!msie || (document.documentMode && document.documentMode > 7)) {
             // If it is not IE or a version greater than seven
             return;
         }
@@ -1175,6 +1176,8 @@
                     if (prop === 'state') {
                         locationObject = createVBObjects(locationObject);
                         window.history = historyObject = createVBObjects(historyObject);
+                        // hack for IE7
+                        window['execScript']('var history = window.history;', 'JavaScript');
                     }
                 } else {
                     object[prop] = descriptor.get && descriptor.get();

@@ -1,9 +1,9 @@
 /*!
- * History API JavaScript Library v4.1.0
+ * History API JavaScript Library v4.1.1
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
- * Copyright 2011-2013, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
+ * Copyright 2011-2014, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
  *
  * http://spb-piksel.ru/
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-03-24 13:14
+ * Update: 2014-04-29 15:22
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -511,6 +511,7 @@
                      * the same names.
                      */
                     window['execScript']('Public ' + prop, 'VBScript');
+                    window['execScript']('var ' + prop + ';', 'JavaScript');
                 } else {
                     try {
                         /**
