@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.1
+ * History API JavaScript Library v4.1.2
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-04-29 15:22
+ * Update: 2014-04-29 15:30
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -1153,6 +1153,9 @@
                 if (!iFrame['lfirst']) {
                     iFrame["lfirst"] = 1;
                     changeState(state, currentHref, 0, lastURLValue, 1);
+                } else if (lfirst) {
+                    lfirst = 0;
+                    state = stateStorage[windowLocation.href];
                 }
                 iFrameDocument.open();
                 iFrameDocument.write('\x3Cscript\x3Elfirst=1;parent.location.hash="'
