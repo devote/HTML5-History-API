@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.3
+ * History API JavaScript Library v4.1.4
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-05-14 14:06
+ * Update: 2014-05-14 14:27
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
