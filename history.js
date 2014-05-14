@@ -1,9 +1,9 @@
 /*!
- * History API JavaScript Library v4.1.2
+ * History API JavaScript Library v4.1.3
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
- * Copyright 2011-2013, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
+ * Copyright 2011-2014, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
  *
  * http://spb-piksel.ru/
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-04-29 15:30
+ * Update: 2014-05-14 14:06
  */
 (function(window) {
     // Prevent the code from running if there is no window.history object
@@ -113,7 +113,8 @@
          * @param {String} [basepath]
          */
         "redirect": function(type, basepath) {
-            settings["basepath"] = basepath = basepath == null ? settings["basepath"] : basepath;
+            settings["basepath"] = basepath = ('' + (basepath == null ?
+                settings["basepath"] : basepath)).replace(/(?:^|\/)[^\/]*$/, '/');
             settings["type"] = type = type == null ? settings["type"] : type;
             if (window.top == window.self) {
                 var relative = parseURL(null, false, true)._relative;
@@ -859,7 +860,8 @@
         var src = (scripts[scripts.length - 1] || {}).src || '';
         var arg = src.indexOf('?') !== -1 ? src.split('?').pop() : '';
         arg.replace(/(\w+)(?:=([^&]*))?/g, function(a, key, value) {
-            settings[key] = (value || (key === 'basepath' ? '/' : '')).replace(/^(0|false)$/, '');
+            value = (value || '').replace(/^(0|false)$/, '');
+            settings[key] = key === 'basepath' ? value.replace(/(?:^|\/)[^\/]*$/, '/') : value;
         });
 
         /**
