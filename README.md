@@ -7,7 +7,7 @@ The library operates according to W3C specification, adding no new or incompatib
 
 ### You may install this plugin with this command:
 ```shell
-nmp install html5-history-api
+npm install html5-history-api
 ```
 
 ### AMD Support:
