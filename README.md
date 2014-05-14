@@ -5,8 +5,38 @@ This Javascript library provides an emulation of HTML5 History API for older bro
 
 The library operates according to W3C specification, adding no new or incompatible methods. The library can be used exactly as described, for example, in Dive Into HTML5 book (http://diveintohtml5.info/history.html) or in the History API Specification (http://www.w3.org/TR/html5/browsers.html#the-history-interface).
 
-Example of using the library in the pure JS context:
+### You may install this plugin with this command:
+```shell
+nmp install html5-history-api
+```
 
+### AMD Support:
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/require.js"></script>
+    <script type="text/javascript">
+      requirejs.config({
+        paths: {
+          'html5-history-api': '/history'
+        }
+      });
+      requirejs(['html5-history-api'], function(history) {
+        if (history.emulate) {
+          console.log('In your browser is emulated HTML5-History-API');
+        } else {
+          console.log('In your browser is natively support HTML5-History-API');
+        }
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+```
+
+### Example of using the library in the pure JS context:
 ```html
 <!DOCTYPE html>
 <html>
@@ -69,8 +99,7 @@ Example of using the library in the pure JS context:
 </html>
 ```
 
-Example of using the library along with JQuery:
-
+### Example of using the library along with JQuery:
 ```html
 <!DOCTYPE html>
 <html>
@@ -125,8 +154,7 @@ Example of using the library along with JQuery:
 </html>
 ```
 
-Example of using popstate (pure JS):
-
+### Example of using popstate (pure JS):
 ```javascript
 window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
 
@@ -138,8 +166,7 @@ window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate',
 }, false);
 ```
 
-Example of using popstate with JQuery:
-
+### Example of using popstate with JQuery:
 ```javascript
 $(window).on('popstate', function(event) {
 
@@ -150,7 +177,7 @@ $(window).on('popstate', function(event) {
 });
 ```
 
-Advanced library configuration:
+### Advanced library configuration:
 
     history.js?basepath=/pathtosite/ - the base path to the site; defaults to the root "/".
     history.js?redirect=true - enable link translation.
