@@ -22,7 +22,7 @@ npm install html5-history-api
           'html5-history-api': '/history'
         }
       });
-      requirejs(['html5-history-api'], function(history) {
+      requirejs(['html5-history-api'], function() {
         if (history.emulate) {
           console.log('In your browser is emulated HTML5-History-API');
         } else {
