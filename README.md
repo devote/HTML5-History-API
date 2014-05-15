@@ -17,12 +17,7 @@ npm install html5-history-api
   <head>
     <script type="text/javascript" src="/require.js"></script>
     <script type="text/javascript">
-      requirejs.config({
-        paths: {
-          'html5-history-api': '/history'
-        }
-      });
-      requirejs(['html5-history-api'], function() {
+      requirejs(['/history'], function() {
         if (history.emulate) {
           console.log('In your browser is emulated HTML5-History-API');
         } else {
