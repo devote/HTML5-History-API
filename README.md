@@ -186,7 +186,7 @@ Or execute special method in JavaScript:
 
     history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
 
-Demo Site: http://history.spb-piksel.ru/
+Demo Site: http://history.spb-piksel.ru/ or http://devote.github.io/demos/history/
 
 Follow me on Twitter: https://twitter.com/DimaPakhtinov
 
@@ -377,7 +377,7 @@ $(window).on('popstate', function(e) {
 
     history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
 
-Демо-сайт: http://history.spb-piksel.ru/
+Демо-сайт: http://history.spb-piksel.ru/ или http://devote.github.io/demos/history/
 
 Я в Twitter: https://twitter.com/DimaPakhtinov
 

@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.6
+ * History API JavaScript Library v4.1.7
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,12 +11,12 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-05-15 17:13
+ * Update: 2014-05-19 16:57
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
         // https://github.com/devote/HTML5-History-API/issues/57#issuecomment-43133600
-        define(typeof document !== "object" || document.readyState === "complete" ? [] : "html5-history-api", factory);
+        define(typeof document !== "object" || document.readyState !== "loading" ? [] : "html5-history-api", factory);
     } else {
         factory();
     }
