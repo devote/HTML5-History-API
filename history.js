@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.7
+ * History API JavaScript Library v4.1.8
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-05-19 16:57
+ * Update: 2014-06-05 11:54
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -367,7 +367,15 @@
     function parseURL(href, isWindowLocation, isNotAPI) {
         var re = /(?:([\w0-9]+:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
         if (href != null && href !== '' && !isWindowLocation) {
-            var current = parseURL(), _pathname = current._pathname, _protocol = current._protocol;
+            var current = parseURL(),
+                base = document.getElementsByTagName('base')[0];
+            if (!isNotAPI && base && base.getAttribute('href')) {
+              // Fix for IE ignoring relative base tags.
+              // See http://stackoverflow.com/questions/3926197/html-base-tag-and-local-folder-path-with-internet-explorer
+              base.href = base.href;
+              current = parseURL(base.href, null, true);
+            }
+            var _pathname = current._pathname, _protocol = current._protocol;
             // convert to type of string
             href = '' + href;
             // convert relative link to the absolute
