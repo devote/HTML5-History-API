@@ -1,5 +1,12 @@
 {
   "name": "html5-history-api",
+  "npmName": "html5-history-api",
+  "npmFileMap": [{
+    "basePath": "/",
+    "files": [
+      "*.js"
+    ]
+  }],
   "version": "4.1.8",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "main": "history.js",
@@ -21,6 +28,5 @@
     "devote"
   ],
   "author": "Dmitrii Pakhtinov",
-  "license": "GPL/MIT",
-  "readmeFilename": "readme.en.txt"
+  "license": "GPL/MIT"
 }
