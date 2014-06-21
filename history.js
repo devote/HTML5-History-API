@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.8
+ * History API JavaScript Library v4.1.9
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-06-05 11:54
+ * Update: 2014-06-21 22:46
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -775,7 +775,7 @@
             // current event object
             event = event || global.event;
 
-            var oldURLObject = parseURL(lastURL, true);
+            var oldURLObject = parseURL(fireNow, true);
             var newURLObject = parseURL();
             // HTML4 browser not support properties oldURL/newURL
             if (!event.oldURL) {
