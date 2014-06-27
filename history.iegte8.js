@@ -746,6 +746,8 @@
                     windowLocation.hash = urlObject._special;
                 }
             }
+        } else {
+            lastURL = windowLocation.href;
         }
         if (!isSupportStateObjectInHistory && state) {
             stateStorage[windowLocation.href] = state;
