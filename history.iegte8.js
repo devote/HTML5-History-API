@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.9
+ * History API JavaScript Library v4.1.10
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-06-21 22:46
+ * Update: 2014-06-28 02:51
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -75,6 +75,8 @@
     var checkUrlForPopState = '';
     // trigger event 'onpopstate' on page load
     var isFireInitialState = false;
+    // if used history.location of other code
+    var isUsedHistoryLocationFlag = 0;
     // store a list of 'state' objects in the current session
     var stateStorage = {};
     // in this object will be stored custom handlers
@@ -203,9 +205,11 @@
          */
         "location": {
             set: function(value) {
+                if (isUsedHistoryLocationFlag === 0) isUsedHistoryLocationFlag = 1;
                 global.location = value;
             },
             get: function() {
+                if (isUsedHistoryLocationFlag === 0) isUsedHistoryLocationFlag = 1;
                 return isSupportHistoryAPI ? windowLocation : locationObject;
             }
         },
@@ -732,8 +736,10 @@
      */
     function changeState(state, url, replace, lastURLValue) {
         if (!isSupportHistoryAPI) {
+            // if not used implementation history.location
+            if (isUsedHistoryLocationFlag === 0) isUsedHistoryLocationFlag = 2;
             // normalization url
-            var urlObject = parseURL(url);
+            var urlObject = parseURL(url, isUsedHistoryLocationFlag === 2 && ('' + url).indexOf("#") !== -1);
             // if current url not equal new url
             if (urlObject._relative !== parseURL()._relative) {
                 // if empty lastURLValue to skip hash change event
@@ -816,9 +822,9 @@
             }, false);
         }, 0);
         // for non-HTML5 browsers
-        if (!isSupportHistoryAPI && noScroll !== true && historyObject.location) {
+        if (!isSupportHistoryAPI && noScroll !== true && "location" in historyObject) {
             // scroll window to anchor element
-            scrollToAnchorId(historyObject.location.hash);
+            scrollToAnchorId(locationObject.hash);
             // fire initial state for non-HTML5 browser after load page
             fireInitialState();
         }
@@ -852,7 +858,7 @@
             var isEqualBaseURL = current._href.split('#').shift() === expect._href.split('#').shift();
             if (isEqualBaseURL && expect._hash) {
                 if (current._hash !== expect._hash) {
-                    historyObject.location.hash = expect._hash;
+                    locationObject.hash = expect._hash;
                 }
                 scrollToAnchorId(expect._hash);
                 if (event.preventDefault) {
