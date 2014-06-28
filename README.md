@@ -35,62 +35,59 @@ npm install html5-history-api
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript" src="history.js"></script>
-        <script type="text/javascript">
-            (function(eventInfo) {
-                // hang on the event, all references in this document
-                document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
-                    event = event || window.event;
-                    var target = event.target || event.srcElement;
-                    // looking for all the links with 'ajax' class found
-                    if (target && target.nodeName === 'A' &&
-                       (' ' + target.className + ' ').indexOf('ajax') >= 0)
-                    {
-                        // keep the link in the browser history
-                        history.pushState(null, null, target.href);
+  <head>
+    <script type="text/javascript" src="history.js"></script>
+    <script type="text/javascript">
+      (function(eventInfo) {
+        // we get a normal Location object
 
+        /*
+         * Note, this is the only difference when using this library,
+         * because the object document.location cannot be overriden,
+         * so library the returns generated "location" object within
+         * an object window.history, so get it out of "history.location".
+         * For browsers supporting "history.pushState" get generated
+         * object "location" with the usual "document.location".
+         */
+        var location = window.history.location || window.location;
 
-                        // here can cause data loading, etc.
+        // hang on the event, all references in this document
+        document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
+          event = event || window.event;
+          var target = event.target || event.srcElement;
+          // looking for all the links with 'ajax' class found
+          if (target && target.nodeName === 'A' &&
+             (' ' + target.className + ' ').indexOf('ajax') >= 0)
+          {
+            // keep the link in the browser history
+            history.pushState(null, null, target.href);
 
+            // here can cause data loading, etc.
 
-                        // do not give a default action
-                        if (event.preventDefault) {
-                            event.preventDefault();
-                        } else {
-                            event.returnValue = false;
-                        }
-                    }
-                }, false);
+            // do not give a default action
+            if (event.preventDefault) {
+              event.preventDefault();
+            } else {
+              event.returnValue = false;
+            }
+          }
+        }, false);
 
-                // hang on popstate event triggered by pressing back/forward in browser
-                window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
-                    // we get a normal Location object
+        // hang on popstate event triggered by pressing back/forward in browser
+        window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
 
-                    /*
-                     * Note, this is the only difference when using this library,
-                     * because the object document.location cannot be overriden,
-                     * so library the returns generated "location" object within
-                     * an object window.history, so get it out of "history.location".
-                     * For browsers supporting "history.pushState" get generated
-                     * object "location" with the usual "document.location".
-                     */
-                    var returnLocation = history.location || document.location;
+          // here can cause data loading, etc.
 
-
-                    // here can cause data loading, etc.
-
-
-                    // just post
-                    alert("We returned to the page with a link: " + returnLocation.href);
-                }, false);
-            })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
-        </script>
-    </head>
-    <body>
-        <a class="ajax" href="/mylink.html">My Link</a>
-        <a class="ajax" href="/otherlink.html">Other Link</a>
-    </body>
+          // just post
+          alert("We returned to the page with a link: " + location.href);
+        }, false);
+      })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
+    </script>
+  </head>
+  <body>
+    <a class="ajax" href="/mylink.html">My Link</a>
+    <a class="ajax" href="/otherlink.html">Other Link</a>
+  </body>
 </html>
 ```
 
@@ -98,78 +95,50 @@ npm install html5-history-api
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript" src="history.js"></script>
-        <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript">
-            $(function() {
+  <head>
+    <script type="text/javascript" src="history.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        // we get a normal Location object
 
-                // looking for all the links and hang on the event, all references in this document
-                $(document).on('click', 'a.ajax', function() {
-                    // keep the link in the browser history
-                    history.pushState(null, null, this.href);
+        /*
+         * Note, this is the only difference when using this library,
+         * because the object document.location cannot be overriden,
+         * so library the returns generated "location" object within
+         * an object window.history, so get it out of "history.location".
+         * For browsers supporting "history.pushState" get generated
+         * object "location" with the usual "document.location".
+         */
+        var location = window.history.location || window.location;
 
+        // looking for all the links and hang on the event, all references in this document
+        $(document).on('click', 'a.ajax', function() {
+          // keep the link in the browser history
+          history.pushState(null, null, this.href);
 
-                    // here can cause data loading, etc.
+          // here can cause data loading, etc.
 
+          // do not give a default action
+          return false;
+        });
 
-                    // do not give a default action
-                    return false;
-                });
+        // hang on popstate event triggered by pressing back/forward in browser
+        $(window).on('popstate', function(e) {
 
-                // hang on popstate event triggered by pressing back/forward in browser
-                $(window).on('popstate', function(e) {
+          // here can cause data loading, etc.
 
-                    // we get a normal Location object
-
-                    /*
-                    * Note, this is the only difference when using this library,
-                    * because the object document.location cannot be overriden,
-                    * so library the returns generated "location" object within
-                    * an object window.history, so get it out of "history.location".
-                    * For browsers supporting "history.pushState" get generated
-                    * object "location" with the usual "document.location".
-                    */
-                    var returnLocation = history.location || document.location;
-
-
-                    // here can cause data loading, etc.
-
-
-                    // just post
-                    alert("We returned to the page with a link: " + returnLocation.href);
-                });
-            });
-        </script>
-    </head>
-    <body>
-        <a class="ajax" href="/mylink.html">My Link</a>
-        <a class="ajax" href="/otherlink.html">Other Link</a>
-    </body>
+          // just post
+          alert("We returned to the page with a link: " + location.href);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <a class="ajax" href="/mylink.html">My Link</a>
+    <a class="ajax" href="/otherlink.html">Other Link</a>
+  </body>
 </html>
-```
-
-### Example of using popstate (pure JS):
-```javascript
-window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
-
-    // receiving location from the window.history object
-    var loc = history.location || document.location;
-
-    alert("return to: " + loc);
-
-}, false);
-```
-
-### Example of using popstate with JQuery:
-```javascript
-$(window).on('popstate', function(event) {
-
-    // receiving location from the window.history object
-    var loc = history.location || document.location;
-
-    alert("return to: " + loc);
-});
 ```
 
 ### Advanced library configuration:
@@ -227,6 +196,18 @@ Alfa-Bank Card # 5486732005875430 - 11/15
         <script type="text/javascript" src="history.js"></script>
         <script type="text/javascript">
             (function(eventInfo) {
+               // получаем нормальный объект Location
+
+               /*
+                * заметьте, это единственная разница при работе с данной библиотекой,
+                * так как объект document.location нельзя перезагрузить, поэтому
+                * библиотека history возвращает сформированный "location" объект внутри
+                * объекта window.history, поэтому получаем его из "history.location".
+                * Для браузеров поддерживающих "history.pushState" получаем
+                * сформированный объект "location" с обычного "document.location".
+                */
+                var location = window.history.location || window.location;
+
                 // вешаем события на все ссылки в нашем документе
                 document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
                     event = event || window.event;
@@ -238,9 +219,7 @@ Alfa-Bank Card # 5486732005875430 - 11/15
                         // заносим ссылку в историю
                         history.pushState(null, null, target.href);
 
-
                         // тут можете вызвать подгрузку данных и т.п.
-
 
                         // не даем выполнить действие по умолчанию
                         if (event.preventDefault) {
@@ -253,24 +232,11 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 
                 // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
                 window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
-                    // получаем нормальный объект Location
-
-                    /*
-                    * заметьте, это единственная разница при работе с данной библиотекой,
-                    * так как объект document.location нельзя перезагрузить, поэтому
-                    * библиотека history возвращает сформированный "location" объект внутри
-                    * объекта window.history, поэтому получаем его из "history.location".
-                    * Для браузеров поддерживающих "history.pushState" получаем
-                    * сформированный объект "location" с обычного "document.location".
-                    */
-                    var returnLocation = history.location || document.location;
-
 
                     // тут можете вызвать подгрузку данных и т.п.
 
-
                     // просто сообщение
-                    alert("We returned to the page with a link: " + returnLocation.href);
+                    alert("We returned to the page with a link: " + location.href);
                 }, false);
             })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
         </script>
@@ -292,15 +258,24 @@ Alfa-Bank Card # 5486732005875430 - 11/15
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
             $(function() {
+               // получаем нормальный объект Location
+
+               /*
+                * заметьте, это единственная разница при работе с данной библиотекой,
+                * так как объект document.location нельзя перезагрузить, поэтому
+                * библиотека history возвращает сформированный "location" объект внутри
+                * объекта window.history, поэтому получаем его из "history.location".
+                * Для браузеров поддерживающих "history.pushState" получаем
+                * сформированный объект "location" с обычного "document.location".
+                */
+                var location = window.history.location || window.location;
 
                 // ищем все ссылки и вешаем события на все ссылки в нашем документе
                 $(document).on('click', 'a.ajax', function() {
                     // заносим ссылку в историю
                     history.pushState(null, null, this.href);
 
-
                     // тут можете вызвать подгрузку данных и т.п.
-
 
                     // не даем выполнить действие по умолчанию
                     return false;
@@ -309,24 +284,10 @@ Alfa-Bank Card # 5486732005875430 - 11/15
                 // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
                 $(window).on('popstate', function(e) {
 
-                    // получаем нормальный объект Location
-
-                    /*
-                    * заметьте, это единственная разница при работе с данной библиотекой,
-                    * так как объект document.location нельзя перезагрузить, поэтому
-                    * библиотека history возвращает сформированный "location" объект внутри
-                    * объекта window.history, поэтому получаем его из "history.location".
-                    * Для браузеров поддерживающих "history.pushState" получаем
-                    * сформированный объект "location" с обычного "document.location".
-                    */
-                    var returnLocation = history.location || document.location;
-
-
                     // тут можете вызвать подгрузку данных и т.п.
 
-
                     // просто сообщение
-                    alert("Мы вернулись на страницу со ссылкой: " + returnLocation.href);
+                    alert("Мы вернулись на страницу со ссылкой: " + location.href);
                 });
             });
         </script>
@@ -336,31 +297,6 @@ Alfa-Bank Card # 5486732005875430 - 11/15
         <a class="ajax" href="/otherlink.html">Other Link</a>
     </body>
 </html>
-```
-
-Использование события popstate при обычном чистом JS:
-
-```javascript
-window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
-
-    // получение location из объекта window.history
-    var loc = history.location || document.location;
-
-    alert("return to: " + loc);
-
-}, false);
-```
-
-Использование события popstate в связке jQuery:
-
-```javascript
-$(window).on('popstate', function(e) {
-
-    // получение location из объекта window.history
-    var loc = history.location || document.location;
-
-    alert("return to: " + loc);
-});
 ```
 
 Вы можете использовать дополнительные параметры конфигурации библиотеки:
