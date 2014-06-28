@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.10
+ * History API JavaScript Library v4.1.11
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-06-28 02:51
+ * Update: 2014-06-28 03:56
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -492,8 +492,12 @@
      * @return {Object|Boolean} Returns an object on success, otherwise returns false
      */
     function redefineProperty(object, prop, descriptor, onWrapped) {
+        var testOnly = 0;
         // test only if descriptor is undefined
-        descriptor = descriptor || {set: emptyFunction};
+        if (!descriptor) {
+            descriptor = {set: emptyFunction};
+            testOnly = 1;
+        }
         // variable will have a value of true the success of attempts to set descriptors
         var isDefinedSetter = !descriptor.set;
         var isDefinedGetter = !descriptor.get;
@@ -529,63 +533,68 @@
             }
 
             // Browser refused to override the property, using the standard and deprecated methods
-            if ((!isDefinedSetter || !isDefinedGetter) && object === global) {
-                try {
-                    // save original value from this property
-                    var originalValue = object[prop];
-                    // set null to built-in(native) property
-                    object[prop] = null;
-                } catch(_e_) {
-                }
-                // This rule for Internet Explorer 8
-                if ('execScript' in global) {
-                    /**
-                     * to IE8 override the global properties using
-                     * VBScript, declaring it in global scope with
-                     * the same names.
-                     */
-                    global['execScript']('Public ' + prop, 'VBScript');
-                    global['execScript']('var ' + prop + ';', 'JavaScript');
-                } else {
+            if (!isDefinedSetter || !isDefinedGetter) {
+                if (testOnly) {
+                    return false;
+                } else if (object === global) {
+                    // try override global properties
                     try {
-                        /**
-                         * This hack allows to override a property
-                         * with the set 'configurable: false', working
-                         * in the hack 'Safari' to 'Mac'
-                         */
-                        defineProperty(object, prop, {value: emptyFunction});
+                        // save original value from this property
+                        var originalValue = object[prop];
+                        // set null to built-in(native) property
+                        object[prop] = null;
                     } catch(_e_) {
                     }
-                }
-                // set old value to new variable
-                object[prop] = originalValue;
-
-            } else if (!isDefinedSetter || !isDefinedGetter) {
-                // the last stage of trying to override the property
-                try {
-                    try {
-                        // wrap the object in a new empty object
-                        var temp = Object.create(object);
-                        defineProperty(Object.getPrototypeOf(temp) === object ? temp : object, prop, descriptor);
-                        for(var key in object) {
-                            // need to bind a function to the original object
-                            if (typeof object[key] === 'function') {
-                                temp[key] = object[key].bind(object);
-                            }
-                        }
+                    // This rule for Internet Explorer 8
+                    if ('execScript' in global) {
+                        /**
+                         * to IE8 override the global properties using
+                         * VBScript, declaring it in global scope with
+                         * the same names.
+                         */
+                        global['execScript']('Public ' + prop, 'VBScript');
+                        global['execScript']('var ' + prop + ';', 'JavaScript');
+                    } else {
                         try {
-                            // to run a function that will inform about what the object was to wrapped
-                            onWrapped.call(temp, temp, object);
+                            /**
+                             * This hack allows to override a property
+                             * with the set 'configurable: false', working
+                             * in the hack 'Safari' to 'Mac'
+                             */
+                            defineProperty(object, prop, {value: emptyFunction});
                         } catch(_e_) {
                         }
-                        object = temp;
-                    } catch(_e_) {
-                        // sometimes works override simply by assigning the prototype property of the constructor
-                        defineProperty(object.constructor.prototype, prop, descriptor);
                     }
-                } catch(_e_) {
-                    // all methods have failed
-                    return false;
+                    // set old value to new variable
+                    object[prop] = originalValue;
+
+                } else {
+                    // the last stage of trying to override the property
+                    try {
+                        try {
+                            // wrap the object in a new empty object
+                            var temp = Object.create(object);
+                            defineProperty(Object.getPrototypeOf(temp) === object ? temp : object, prop, descriptor);
+                            for(var key in object) {
+                                // need to bind a function to the original object
+                                if (typeof object[key] === 'function') {
+                                    temp[key] = object[key].bind(object);
+                                }
+                            }
+                            try {
+                                // to run a function that will inform about what the object was to wrapped
+                                onWrapped.call(temp, temp, object);
+                            } catch(_e_) {
+                            }
+                            object = temp;
+                        } catch(_e_) {
+                            // sometimes works override simply by assigning the prototype property of the constructor
+                            defineProperty(object.constructor.prototype, prop, descriptor);
+                        }
+                    } catch(_e_) {
+                        // all methods have failed
+                        return false;
+                    }
                 }
             }
         }
