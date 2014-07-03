@@ -77,7 +77,7 @@ code of library looks like this:
           var target = event.target || event.srcElement;
           // looking for all the links with 'ajax' class found
           if (target && target.nodeName === 'A' &&
-             (' ' + target.className + ' ').indexOf('ajax') >= 0)
+             (' ' + target.className + ' ').indexOf(' ajax ') >= 0)
           {
             // keep the link in the browser history
             history.pushState(null, null, target.href);
