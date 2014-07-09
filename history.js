@@ -369,7 +369,7 @@
      * @return {Object}
      */
     function parseURL(href, isWindowLocation, isNotAPI) {
-        var re = /(?:([\w0-9]+:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
+        var re = /(?:(\w+:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
         if (href != null && href !== '' && !isWindowLocation) {
             var current = parseURL(),
                 base = document.getElementsByTagName('base')[0];
@@ -383,7 +383,7 @@
             // convert to type of string
             href = '' + href;
             // convert relative link to the absolute
-            href = /^(?:[\w0-9]+\:)?\/\//.test(href) ? href.indexOf("/") === 0
+            href = /^(?:\w+\:)?\/\//.test(href) ? href.indexOf("/") === 0
                 ? _protocol + href : href : _protocol + "//" + current._host + (
                 href.indexOf("/") === 0 ? href : href.indexOf("?") === 0
                     ? _pathname + href : href.indexOf("#") === 0
