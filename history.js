@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.1.11
+ * History API JavaScript Library v4.1.12
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-06-28 03:56
+ * Update: 2014-06-29 20:56
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -659,7 +659,7 @@
     function removeEventListener(event, listener, capture) {
         var list = eventsList[event];
         if (list) {
-            for(var i = list.length; --i;) {
+            for(var i = list.length; i--;) {
                 if (list[i] === listener) {
                     list.splice(i, 1);
                     break;
