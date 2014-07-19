@@ -212,59 +212,59 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript" src="history.js"></script>
-        <script type="text/javascript">
-            (function(eventInfo) {
-               // получаем нормальный объект Location
+  <head>
+    <script type="text/javascript" src="history.js"></script>
+    <script type="text/javascript">
+      (function(eventInfo) {
+        // получаем нормальный объект Location
 
-               /*
-                * заметьте, это единственная разница при работе с данной библиотекой,
-                * так как объект document.location нельзя перезагрузить, поэтому
-                * библиотека history возвращает сформированный "location" объект внутри
-                * объекта window.history, поэтому получаем его из "history.location".
-                * Для браузеров поддерживающих "history.pushState" получаем
-                * сформированный объект "location" с обычного "document.location".
-                */
-                var location = window.history.location || window.location;
+        /*
+         * заметьте, это единственная разница при работе с данной библиотекой,
+         * так как объект document.location нельзя перезагрузить, поэтому
+         * библиотека history возвращает сформированный "location" объект внутри
+         * объекта window.history, поэтому получаем его из "history.location".
+         * Для браузеров поддерживающих "history.pushState" получаем
+         * сформированный объект "location" с обычного "document.location".
+         */
+        var location = window.history.location || window.location;
 
-                // вешаем события на все ссылки в нашем документе
-                document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
-                    event = event || window.event;
-                    var target = event.target || event.srcElement;
-                    // ищем все ссылки с классом 'ajax'
-                    if (target && target.nodeName === 'A' &&
-                       (' ' + target.className + ' ').indexOf('ajax') >= 0)
-                    {
-                        // заносим ссылку в историю
-                        history.pushState(null, null, target.href);
+        // вешаем события на все ссылки в нашем документе
+        document[eventInfo[0]](eventInfo[1] + 'click', function(event) {
+          event = event || window.event;
+          var target = event.target || event.srcElement;
+          // ищем все ссылки с классом 'ajax'
+          if (target && target.nodeName === 'A' &&
+             (' ' + target.className + ' ').indexOf('ajax') >= 0)
+          {
+            // заносим ссылку в историю
+            history.pushState(null, null, target.href);
 
-                        // тут можете вызвать подгрузку данных и т.п.
+            // тут можете вызвать подгрузку данных и т.п.
 
-                        // не даем выполнить действие по умолчанию
-                        if (event.preventDefault) {
-                            event.preventDefault();
-                        } else {
-                            event.returnValue = false;
-                        }
-                    }
-                }, false);
+            // не даем выполнить действие по умолчанию
+            if (event.preventDefault) {
+              event.preventDefault();
+            } else {
+              event.returnValue = false;
+            }
+          }
+        }, false);
 
-                // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
-                window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
+        // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
+        window[eventInfo[0]](eventInfo[1] + 'popstate', function(event) {
 
-                    // тут можете вызвать подгрузку данных и т.п.
+          // тут можете вызвать подгрузку данных и т.п.
 
-                    // просто сообщение
-                    alert("We returned to the page with a link: " + location.href);
-                }, false);
-            })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
-        </script>
-    </head>
-    <body>
-        <a class="ajax" href="/mylink.html">My Link</a>
-        <a class="ajax" href="/otherlink.html">Other Link</a>
-    </body>
+          // просто сообщение
+          alert("We returned to the page with a link: " + location.href);
+        }, false);
+      })(window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
+    </script>
+  </head>
+  <body>
+    <a class="ajax" href="/mylink.html">My Link</a>
+    <a class="ajax" href="/otherlink.html">Other Link</a>
+  </body>
 </html>
 ```
 
@@ -273,49 +273,49 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript" src="history.js"></script>
-        <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript">
-            $(function() {
-               // получаем нормальный объект Location
+  <head>
+    <script type="text/javascript" src="history.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        // получаем нормальный объект Location
 
-               /*
-                * заметьте, это единственная разница при работе с данной библиотекой,
-                * так как объект document.location нельзя перезагрузить, поэтому
-                * библиотека history возвращает сформированный "location" объект внутри
-                * объекта window.history, поэтому получаем его из "history.location".
-                * Для браузеров поддерживающих "history.pushState" получаем
-                * сформированный объект "location" с обычного "document.location".
-                */
-                var location = window.history.location || window.location;
+        /*
+         * заметьте, это единственная разница при работе с данной библиотекой,
+         * так как объект document.location нельзя перезагрузить, поэтому
+         * библиотека history возвращает сформированный "location" объект внутри
+         * объекта window.history, поэтому получаем его из "history.location".
+         * Для браузеров поддерживающих "history.pushState" получаем
+         * сформированный объект "location" с обычного "document.location".
+         */
+        var location = window.history.location || window.location;
 
-                // ищем все ссылки и вешаем события на все ссылки в нашем документе
-                $(document).on('click', 'a.ajax', function() {
-                    // заносим ссылку в историю
-                    history.pushState(null, null, this.href);
+        // ищем все ссылки и вешаем события на все ссылки в нашем документе
+        $(document).on('click', 'a.ajax', function() {
+          // заносим ссылку в историю
+          history.pushState(null, null, this.href);
 
-                    // тут можете вызвать подгрузку данных и т.п.
+          // тут можете вызвать подгрузку данных и т.п.
 
-                    // не даем выполнить действие по умолчанию
-                    return false;
-                });
+          // не даем выполнить действие по умолчанию
+          return false;
+        });
 
-                // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
-                $(window).on('popstate', function(e) {
+        // вешаем событие на popstate которое срабатывает при нажатии back/forward в браузере
+        $(window).on('popstate', function(e) {
 
-                    // тут можете вызвать подгрузку данных и т.п.
+          // тут можете вызвать подгрузку данных и т.п.
 
-                    // просто сообщение
-                    alert("Мы вернулись на страницу со ссылкой: " + location.href);
-                });
-            });
-        </script>
-    </head>
-    <body>
-        <a class="ajax" href="/mylink.html">My Link</a>
-        <a class="ajax" href="/otherlink.html">Other Link</a>
-    </body>
+          // просто сообщение
+          alert("Мы вернулись на страницу со ссылкой: " + location.href);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <a class="ajax" href="/mylink.html">My Link</a>
+    <a class="ajax" href="/otherlink.html">Other Link</a>
+  </body>
 </html>
 ```
 
