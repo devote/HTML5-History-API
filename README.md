@@ -172,9 +172,9 @@ You can also combine options:
     history.js?type=/&redirect=true&basepath=/pathtosite/ - the order of options does not matter.
 
 Or execute special method in JavaScript:
-
-    history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
-
+```js
+history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
+```
 Demo Site: http://history.spb-piksel.ru/ or http://devote.github.io/demos/history/
 
 Follow me on Twitter: https://twitter.com/DimaPakhtinov
@@ -205,10 +205,53 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 
 По принципу мы работаем с HTML5 History API так как описано, например, тут http://htmlbook.ru/html5/history или по спецификации http://www.w3.org/TR/html5/history.html#the-history-interface
 
-То есть коротенький пример:
+### Вы можете установить плагин с помощью команды:
+```shell
+npm install html5-history-api
+```
 
-на чистом JS:
+### Для разработчиков библиотек:
 
+Для включения поддержки плагина HTML5-History-API polyfill в своих библиотеках, добавьте строку кода:
+```js
+var location = window.history.location || window.location;
+```
+
+код будет выглядеть примерно так:
+```js
+(function(){
+  // Включает поддержку плагина HTML5-History-API polyfill
+  var location = window.history.location || window.location;
+
+  // код вашей библиотеки
+  // ....
+  // ....
+  // ....
+})();
+```
+
+### Поддержка AMD:
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/require.js"></script>
+    <script type="text/javascript">
+      requirejs(['/history'], function() {
+        if (history.emulate) {
+          console.log('В вашем браузере эмулируется HTML5-History-API');
+        } else {
+          console.log('В вашем браузере есть поддержка HTML5-History-API');
+        }
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+```
+
+### Коротенький пример на чистом JS:
 ```html
 <!DOCTYPE html>
 <html>
@@ -268,7 +311,7 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 </html>
 ```
 
-А теперь показываю пример в связке с jQuery:
+### А теперь показываю пример в связке с jQuery:
 
 ```html
 <!DOCTYPE html>
@@ -319,7 +362,7 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 </html>
 ```
 
-Вы можете использовать дополнительные параметры конфигурации библиотеки:
+### Вы можете использовать дополнительные параметры конфигурации библиотеки:
 
     history.js?basepath=/pathtosite/ - базовый путь к сайту, по умолчанию имеет значение корня "/".
     history.js?redirect=true - включить преобразование ссылок.
@@ -330,9 +373,9 @@ Alfa-Bank Card # 5486732005875430 - 11/15
     history.js?type=/&redirect=true&basepath=/pathtosite/ - порядок опций не имеет значение.
 
 Или выполнить специальный метод в JavaScript:
-
-    history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
-
+```js
+history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
+```
 Демо-сайт: http://history.spb-piksel.ru/ или http://devote.github.io/demos/history/
 
 Я в Twitter: https://twitter.com/DimaPakhtinov
