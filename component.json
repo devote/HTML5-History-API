@@ -1,0 +1,23 @@
+{
+  "name": "html5-history-api",
+  "version": "4.1.12",
+  "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
+  "main": "history.js",
+  "scripts": ["history.js"],
+  "repository": "devote/HTML5-History-API",
+  "keywords": [
+    "javascript",
+    "html5 history api",
+    "hashchange",
+    "popstate",
+    "pushstate",
+    "replacestate",
+    "hashes",
+    "hashbang",
+    "history",
+    "html5",
+    "devote"
+  ],
+  "author": "Dmitrii Pakhtinov",
+  "license": "GPL/MIT"
+}
