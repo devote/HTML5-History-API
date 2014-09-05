@@ -7,7 +7,7 @@
       "*.js"
     ]
   }],
-  "version": "4.1.12",
+  "version": "4.1.13",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "main": "history.js",
   "repository": {
