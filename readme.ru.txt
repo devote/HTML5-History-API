@@ -46,13 +46,13 @@
 
                         /*
                         * заметьте, это единственная разница при работе с данной библиотекой,
-                        * так как объект document.location нельзя перезагрузить, поэтому
+                        * так как объект window.location нельзя перезагрузить, поэтому
                         * библиотека history возвращает сформированный "location" объект внутри
                         * объекта window.history, поэтому получаем его из "history.location".
                         * Для браузеров поддерживающих "history.pushState" получаем
-                        * сформированный объект "location" с обычного "document.location".
+                        * сформированный объект "location" с обычного "window.location".
                         */
-                        var returnLocation = history.location || document.location;
+                        var returnLocation = history.location || window.location;
 
 
                         // тут можете вызвать подгрузку данных и т.п.
@@ -100,13 +100,13 @@
 
                         /*
                         * заметьте, это единственная разница при работе с данной библиотекой,
-                        * так как объект document.location нельзя перезагрузить, поэтому
+                        * так как объект window.location нельзя перезагрузить, поэтому
                         * библиотека history возвращает сформированный "location" объект внутри
                         * объекта window.history, поэтому получаем его из "history.location".
                         * Для браузеров поддерживающих "history.pushState" получаем
-                        * сформированный объект "location" с обычного "document.location".
+                        * сформированный объект "location" с обычного "window.location".
                         */
-                        var returnLocation = history.location || document.location;
+                        var returnLocation = history.location || window.location;
 
 
                         // тут можете вызвать подгрузку данных и т.п.
@@ -129,7 +129,7 @@
     window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
 
         // получение location из объекта window.history
-        var loc = history.location || document.location;
+        var loc = history.location || window.location;
 
         alert("return to: " + loc);
 
@@ -141,7 +141,7 @@
     $(window).on('popstate', function(e) {
 
         // получение location из объекта window.history
-        var loc = history.location || document.location;
+        var loc = history.location || window.location;
 
         alert("return to: " + loc);
     });

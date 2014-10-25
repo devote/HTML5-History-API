@@ -63,11 +63,11 @@ code of library looks like this:
 
         /*
          * Note, this is the only difference when using this library,
-         * because the object document.location cannot be overriden,
+         * because the object window.location cannot be overriden,
          * so library the returns generated "location" object within
          * an object window.history, so get it out of "history.location".
          * For browsers supporting "history.pushState" get generated
-         * object "location" with the usual "document.location".
+         * object "location" with the usual "window.location".
          */
         var location = window.history.location || window.location;
 
@@ -124,11 +124,11 @@ code of library looks like this:
 
         /*
          * Note, this is the only difference when using this library,
-         * because the object document.location cannot be overriden,
+         * because the object window.location cannot be overriden,
          * so library the returns generated "location" object within
          * an object window.history, so get it out of "history.location".
          * For browsers supporting "history.pushState" get generated
-         * object "location" with the usual "document.location".
+         * object "location" with the usual "window.location".
          */
         var location = window.history.location || window.location;
 
@@ -263,11 +263,11 @@ var location = window.history.location || window.location;
 
         /*
          * заметьте, это единственная разница при работе с данной библиотекой,
-         * так как объект document.location нельзя перезагрузить, поэтому
+         * так как объект window.location нельзя перезагрузить, поэтому
          * библиотека history возвращает сформированный "location" объект внутри
          * объекта window.history, поэтому получаем его из "history.location".
          * Для браузеров поддерживающих "history.pushState" получаем
-         * сформированный объект "location" с обычного "document.location".
+         * сформированный объект "location" с обычного "window.location".
          */
         var location = window.history.location || window.location;
 
@@ -325,11 +325,11 @@ var location = window.history.location || window.location;
 
         /*
          * заметьте, это единственная разница при работе с данной библиотекой,
-         * так как объект document.location нельзя перезагрузить, поэтому
+         * так как объект window.location нельзя перезагрузить, поэтому
          * библиотека history возвращает сформированный "location" объект внутри
          * объекта window.history, поэтому получаем его из "history.location".
          * Для браузеров поддерживающих "history.pushState" получаем
-         * сформированный объект "location" с обычного "document.location".
+         * сформированный объект "location" с обычного "window.location".
          */
         var location = window.history.location || window.location;
 

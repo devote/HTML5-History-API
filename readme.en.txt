@@ -46,13 +46,13 @@ on pure JS:
 
                         /*
                          * Note, this is the only difference when using this library,
-                         * because the object document.location cannot be overriden,
+                         * because the object window.location cannot be overriden,
                          * so library the returns generated "location" object within
                          * an object window.history, so get it out of "history.location".
                          * For browsers supporting "history.pushState" get generated
-                         * object "location" with the usual "document.location".
+                         * object "location" with the usual "window.location".
                          */
-                        var returnLocation = history.location || document.location;
+                        var returnLocation = history.location || window.location;
 
 
                         // here can cause data loading, etc.
@@ -100,13 +100,13 @@ And now show an example in conjunction with jQuery:
 
                         /*
                         * Note, this is the only difference when using this library,
-                        * because the object document.location cannot be overriden,
+                        * because the object window.location cannot be overriden,
                         * so library the returns generated "location" object within
                         * an object window.history, so get it out of "history.location".
                         * For browsers supporting "history.pushState" get generated
-                        * object "location" with the usual "document.location".
+                        * object "location" with the usual "window.location".
                         */
-                        var returnLocation = history.location || document.location;
+                        var returnLocation = history.location || window.location;
 
 
                         // here can cause data loading, etc.
@@ -129,7 +129,7 @@ Using the event popstate the usual pure JS:
     window[window.addEventListener ? 'addEventListener' : 'attachEvent']('popstate', function(event) {
 
         // receiving location from the window.history object
-        var loc = history.location || document.location;
+        var loc = history.location || window.location;
 
         alert("return to: " + loc);
 
@@ -141,7 +141,7 @@ Using the popstate event in conjunction jQuery:
     $(window).on('popstate', function(e) {
 
         // receiving location from the window.history object
-        var loc = history.location || document.location;
+        var loc = history.location || window.location;
 
         alert("return to: " + loc);
     });
