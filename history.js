@@ -64,7 +64,7 @@
     var removeEvent = global[removeEventListenerName];
     var dispatch = global[dispatchEventName];
     // default settings
-    var settings = {"basepath": '/', "redirect": 0, "type": '/'};
+    var settings = {"basepath": '/', "redirect": 0, "type": '/', "init": 0};
     // key for the sessionStorage
     var sessionStorageKey = '__historyAPI__';
     // Anchor Element for parseURL function
@@ -971,6 +971,12 @@
         // redirect if necessary
         if (settings['redirect']) {
             historyObject['redirect']();
+        }
+
+        // initialize
+        if (settings["init"]) {
+            // You agree that you will use window.history.location instead window.location
+            isUsedHistoryLocationFlag = 1;
         }
 
         // If browser does not support object 'state' in interface 'History'
