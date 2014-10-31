@@ -73,6 +73,8 @@
     var lastURL = windowLocation.href;
     // Control URL, need to fix the bug in Opera
     var checkUrlForPopState = '';
+    // for fix on Safari 8
+    var triggerEventsInWindowAttributes = 1;
     // trigger event 'onpopstate' on page load
     var isFireInitialState = false;
     // if used history.location of other code
@@ -563,6 +565,25 @@
                              */
                             defineProperty(object, prop, {value: emptyFunction});
                         } catch(_e_) {
+                            if (prop === 'onpopstate') {
+                                /**
+                                 * window.onpopstate fires twice in Safari 8.0.
+                                 * Block initial event on window.onpopstate
+                                 * See: https://github.com/devote/HTML5-History-API/issues/69
+                                 */
+                                addEvent('popstate', descriptor = function() {
+                                    removeEvent('popstate', descriptor, false);
+                                    var onpopstate = object.onpopstate;
+                                    // cancel initial event on attribute handler
+                                    object.onpopstate = null;
+                                    setTimeout(function() {
+                                      // restore attribute value after short time
+                                      object.onpopstate = onpopstate;
+                                    }, 1);
+                                }, false);
+                                // cancel trigger events on attributes in object the window
+                                triggerEventsInWindowAttributes = 0;
+                            }
                         }
                     }
                     // set old value to new variable
@@ -696,9 +717,11 @@
                     });
                 }
             }
-            // run function defined in the attributes 'onpopstate/onhashchange' in the 'window' context
-            ((eventType === 'popstate' ? global.onpopstate : global.onhashchange)
-                || emptyFunction).call(global, eventObject);
+            if (triggerEventsInWindowAttributes) {
+              // run function defined in the attributes 'onpopstate/onhashchange' in the 'window' context
+              ((eventType === 'popstate' ? global.onpopstate : global.onhashchange)
+                  || emptyFunction).call(global, eventObject);
+            }
             // run other functions that are in the list of handlers
             for(var i = 0, len = list.length; i < len; i++) {
                 list[i].call(global, eventObject);
