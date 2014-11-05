@@ -1133,7 +1133,7 @@
         }
 
         // testing IE browser
-        var msie = global['eval'] && eval("/*@cc_on 1;@*/");
+        var msie = global['execScript'] && (global['execScript']('var documentMsie/*@cc_on =1@*/;', 'JavaScript'), global['documentMsie']);
         if (!msie || (document.documentMode && document.documentMode > 7)) {
             // If it is not IE or a version greater than seven
             return;
