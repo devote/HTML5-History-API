@@ -1,7 +1,7 @@
 /*!
- * History API JavaScript Library v4.1.15
+ * History API JavaScript Library v4.2.0
  *
- * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
+ * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
  * Copyright 2011-2014, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-10-31 21:58
+ * Update: 2014-11-06 21:35
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -933,11 +933,6 @@
         });
 
         /**
-         * Includes support for IE6+
-         */
-        ie6DriverStart();
-
-        /**
          * hang up the event handler to listen to the events hashchange
          */
         addEvent(eventNamePrefix + 'hashchange', onHashChange, false);
@@ -1060,233 +1055,4 @@
     global[dispatchEventName] = dispatchEvent;
 
     return historyObject;
-
-    // ====================================================================================== //
-    // Driver for IE6+ or below
-    // ====================================================================================== //
-    function ie6DriverStart() {
-        /**
-         * Creates a static object
-         *
-         * @param object
-         * @returns {*}
-         */
-        function createVBObjects(object) {
-            var properties = [];
-            var className = 'VBHistoryClass' + (new Date()).getTime() + msie++;
-            var staticClassParts = ["Class " + className];
-            for(var prop in object) {
-                if (object.hasOwnProperty(prop)) {
-                    var value = object[prop];
-                    if (value && (value.get || value.set)) {
-                        if (value.get) {
-                            staticClassParts.push(
-                                'Public ' + (prop === '_' ? 'Default ' : '') + 'Property Get [' + prop + ']',
-                                'Call VBCVal([(accessors)].[' + prop + '].get.call(me),[' + prop + '])',
-                                'End Property'
-                            );
-                        }
-                        if (value.set) {
-                            staticClassParts.push('Public Property Let [' + prop + '](val)',
-                                (value = 'Call [(accessors)].[' + prop + '].set.call(me,val)\nEnd Property'),
-                                'Public Property Set [' + prop + '](val)', value);
-                        }
-                    } else {
-                        properties.push(prop);
-                        staticClassParts.push('Public [' + prop + ']');
-                    }
-                }
-            }
-            staticClassParts.push(
-                'Private [(accessors)]',
-                'Private Sub Class_Initialize()',
-                'Set [(accessors)]=' + className + 'FactoryJS()',
-                'End Sub',
-                'End Class',
-                'Function ' + className + 'Factory()',
-                'Set ' + className + 'Factory=New ' + className,
-                'End Function'
-            );
-            global['execScript'](staticClassParts.join('\n'), 'VBScript');
-            global[className + 'FactoryJS'] = function() {
-                return object;
-            };
-            var result = global[className + 'Factory']();
-            for(var i = 0; i < properties.length; i++) {
-                result[properties[i]] = object[properties[i]];
-            }
-            return result;
-        }
-
-        /**
-         * Escape special symbols
-         *
-         * @param string
-         * @returns {string}
-         */
-        function quote(string) {
-            var escapable = /[\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-            var meta = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"': '\\"', '\\': '\\\\'};
-            return escapable.test(string) ? '"' + string.replace(escapable, function(a) {
-                return a in meta ? meta[a] : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-            }) + '"' : '"' + string + '"';
-        }
-
-        // testing IE browser
-        var msie = global['execScript'] && (global['execScript']('var documentMsie/*@cc_on =1@*/;', 'JavaScript'), global['documentMsie']);
-        if (!msie || (document.documentMode && document.documentMode > 7)) {
-            // If it is not IE or a version greater than seven
-            return;
-        }
-
-        // save original links to methods
-        var originalChangeState = changeState;
-        var originalRedefineProperty = redefineProperty;
-        var currentHref = parseURL()._href;
-        var iFrame = document.createElement('iframe');
-
-        // insert IFRAME element to DOM
-        iFrame.src = "javascript:true;";
-        iFrame = documentElement.firstChild.appendChild(iFrame).contentWindow;
-
-        // correction value for VB Script
-        global['execScript'](
-            'Public history\nFunction VBCVal(o,r) If IsObject(o) Then Set r=o Else r=o End If End Function',
-            'VBScript'
-        );
-
-        // renew standard object
-        locationObject = {"_": {get: locationDescriptors.toString}};
-        historyObject = {
-            // properties to create an object in IE
-            "back": windowHistory.back,
-            "forward": windowHistory.forward,
-            "go": windowHistory.go,
-            "emulate": null,
-            "_": {get: function() {
-                return '[object History]';
-            }}
-        };
-
-        JSON = {
-            /**
-             * Analogue of JSON.parse()
-             *
-             * @param value
-             * @returns {*}
-             */
-            "parse": function(value) {
-                try {
-                    return new Function('', 'return ' + value)();
-                } catch(_e_) {
-                    return null;
-                }
-            },
-            /**
-             * Analogue of JSON.stringify()
-             *
-             * @param value
-             * @returns {*}
-             */
-            "stringify": function(value) {
-                var n = (typeof value).charCodeAt(2);
-                return n === 114 ? quote(value) : n === 109 ? isFinite(value) ? String(value) : 'null' : n === 111 || n
-                    === 108 ? String(value) : n === 106 ? !value ? 'null' : (function(isArray) {
-                    var out = isArray ? '[' : '{';
-                    if (isArray) {
-                        for(var i = 0; i < value.length; i++) {
-                            out += (i == 0 ? "" : ",") + JSON.stringify(value[i]);
-                        }
-                    } else {
-                        for(var k in value) {
-                            if (value.hasOwnProperty(k)) {
-                                out += (out.length == 1 ? "" : ",") + quote(k) + ":" + JSON.stringify(value[k]);
-                            }
-                        }
-                    }
-                    return out + (isArray ? ']' : '}');
-                })(Object.prototype.toString.call(value) === '[object Array]') : 'void 0';
-            }
-        };
-
-        /**
-         * Change the data of the current history for IE6+
-         */
-        changeState = function(state, url, replace, lastURLValue, lfirst) {
-            var iFrameDocument = iFrame.document;
-            // if not used implementation history.location
-            if (isUsedHistoryLocationFlag === 0) isUsedHistoryLocationFlag = 2;
-            // normalization url
-            var urlObject = parseURL(url, isUsedHistoryLocationFlag === 2 && ('' + url).indexOf("#") !== -1);
-            isFireInitialState = false;
-            if (urlObject._relative === parseURL()._relative && !lfirst) {
-                if (state) {
-                    stateStorage[windowLocation.href] = state;
-                }
-                return;
-            }
-            lastURL = lastURLValue;
-            if (replace) {
-                if (iFrame["lfirst"]) {
-                    history.back();
-                    changeState(state, urlObject._href, 0, lastURLValue, 1);
-                } else {
-                    windowLocation.replace("#" + urlObject._special);
-                }
-            } else if (urlObject._href != currentHref || lfirst) {
-                if (!iFrame['lfirst']) {
-                    iFrame["lfirst"] = 1;
-                    changeState(state, currentHref, 0, lastURLValue, 1);
-                } else if (lfirst) {
-                    lfirst = 0;
-                    state = stateStorage[windowLocation.href];
-                }
-                iFrameDocument.open();
-                iFrameDocument.write('\x3Cscript\x3Elfirst=1;parent.location.hash="'
-                    + urlObject._special.replace(/"/g, '\\"') + '";\x3C/script\x3E');
-                iFrameDocument.close();
-            }
-            if (!lfirst && state) {
-                stateStorage[windowLocation.href] = state;
-            }
-        };
-
-        /**
-         * See original method
-         */
-        redefineProperty = function(object, prop, descriptor, onWrapped) {
-            if (!originalRedefineProperty.apply(this, arguments)) {
-                if (object === locationObject) {
-                    locationObject[prop] = descriptor;
-                } else if (object === historyObject) {
-                    historyObject[prop] = descriptor;
-                    if (prop === 'state') {
-                        locationObject = createVBObjects(locationObject);
-                        global.history = historyObject = createVBObjects(historyObject);
-                        // hack for IE7
-                        global['execScript']('var history = window.history;', 'JavaScript');
-                    }
-                } else {
-                    object[prop] = descriptor.get && descriptor.get();
-                }
-            }
-            return object;
-        };
-
-        /**
-         * Tracking changes in the hash in the address bar
-         */
-        var interval = setInterval(function() {
-            var href = parseURL()._href;
-            if (href != currentHref) {
-                var e = document.createEventObject();
-                e.oldURL = currentHref;
-                e.newURL = currentHref = href;
-                e.type = 'hashchange';
-                onHashChange(e);
-            }
-        }, 100);
-
-        global['JSON'] = JSON;
-    }
 });

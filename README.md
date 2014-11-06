@@ -10,6 +10,11 @@ The library operates according to W3C specification, adding no new or incompatib
 npm install html5-history-api
 ```
 
+### Browser Support:
+
+`history.js` - IE8+ and other browsers
+`history.ielte7.js` - IE6+ and other browsers
+
 ### For library developers:
 
 To enable support for HTML5-History-API polyfill in your library, you need to add one line of code: 
@@ -209,6 +214,11 @@ Alfa-Bank Card # 5486732005875430 - 11/15
 ```shell
 npm install html5-history-api
 ```
+
+### Поддержка браузеров:
+
+`history.js` - IE8+ и другие браузеры
+`history.ielte7.js` - IE6+ и другие браузеры
 
 ### Для разработчиков библиотек:
 
