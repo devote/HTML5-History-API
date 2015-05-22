@@ -13,6 +13,7 @@ npm install html5-history-api
 ### Browser Support:
 
 `history.js` - IE8+ and other browsers
+
 `history.ielte7.js` - IE6+ and other browsers
 
 ### For library developers:
@@ -218,6 +219,7 @@ npm install html5-history-api
 ### Поддержка браузеров:
 
 `history.js` - IE8+ и другие браузеры
+
 `history.ielte7.js` - IE6+ и другие браузеры
 
 ### Для разработчиков библиотек:

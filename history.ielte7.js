@@ -1,9 +1,9 @@
 /*!
- * History API JavaScript Library v4.2.0
+ * History API JavaScript Library v4.2.1
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
- * Copyright 2011-2014, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
+ * Copyright 2011-2015, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
  *
  * http://spb-piksel.ru/
  *
@@ -11,15 +11,25 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2014-11-06 21:35
+ * Update: 2015-05-22 13:02
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
-        // https://github.com/devote/HTML5-History-API/issues/57#issuecomment-43133600
-        define(typeof document !== "object" || document.readyState !== "loading" ? [] : "html5-history-api", factory);
-    } else {
-        factory();
+        // https://github.com/devote/HTML5-History-API/issues/73
+        var rndKey = '[history' + (new Date()).getTime() + ']';
+        var onError = requirejs['onError'];
+        factory.toString = function() {
+          return rndKey;
+        };
+        requirejs['onError'] = function(err) {
+          if (err.message.indexOf(rndKey) === -1) {
+            onError.call(requirejs, err);
+          }
+        };
+        define([], factory);
     }
+    // execute anyway
+    factory();
 })(function() {
     // Define global variable
     var global = (typeof window === 'object' ? window : this) || {};
