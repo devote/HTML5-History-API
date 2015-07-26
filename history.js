@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.2.1
+ * History API JavaScript Library v4.2.2
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2015-05-22 13:02
+ * Update: 2015-06-26 23:22
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -28,8 +28,13 @@
         };
         define([], factory);
     }
-    // execute anyway
-    factory();
+    // commonJS support
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module['exports'] = factory();
+    } else {
+      // execute anyway
+      return factory();
+    }
 })(function() {
     // Define global variable
     var global = (typeof window === 'object' ? window : this) || {};
