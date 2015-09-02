@@ -1,5 +1,5 @@
 {
-  "name": "history",
+  "name": "html5-history-api",
   "repo": "devote/HTML5-History-API",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
   "version": "4.2.2",
