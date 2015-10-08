@@ -28,5 +28,8 @@
     "devote"
   ],
   "author": "Dmitrii Pakhtinov",
-  "license": "GPL/MIT"
+  "licenses": [
+    "GPL",
+    "MIT"
+  ]
 }
