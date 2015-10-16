@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.2.3
+ * History API JavaScript Library v4.2.4
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2015-10-16 11:23
+ * Update: 2015-10-16 22:16
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -229,7 +229,7 @@
             },
             get: function() {
                 if (isUsedHistoryLocationFlag === 0) isUsedHistoryLocationFlag = 1;
-                return isSupportHistoryAPI ? windowLocation : locationObject;
+                return locationObject;
             }
         },
         /**
@@ -260,7 +260,7 @@
          * @namespace history.location
          */
         assign: function(url) {
-            if (('' + url).indexOf('#') === 0) {
+            if (!isSupportHistoryAPI && ('' + url).indexOf('#') === 0) {
                 changeState(null, url);
             } else {
                 windowLocation.assign(url);
@@ -271,8 +271,8 @@
          *
          * @namespace history.location
          */
-        reload: function() {
-            windowLocation.reload();
+        reload: function(flag) {
+            windowLocation.reload(flag);
         },
         /**
          * Removes the current page from
@@ -282,7 +282,7 @@
          * @namespace history.location
          */
         replace: function(url) {
-            if (('' + url).indexOf('#') === 0) {
+            if (!isSupportHistoryAPI && ('' + url).indexOf('#') === 0) {
                 changeState(null, url, true);
             } else {
                 windowLocation.replace(url);
@@ -321,7 +321,7 @@
          *
          * @namespace history.location
          */
-        "href": {
+        "href": isSupportHistoryAPI ? null : {
             get: function() {
                 return parseURL()._href;
             }
@@ -355,7 +355,7 @@
          *
          * @namespace history.location
          */
-        "pathname": {
+        "pathname": isSupportHistoryAPI ? null : {
             get: function() {
                 return parseURL()._pathname;
             }
@@ -367,7 +367,7 @@
          *
          * @namespace history.location
          */
-        "search": {
+        "search": isSupportHistoryAPI ? null : {
             get: function() {
                 return parseURL()._search;
             }
@@ -379,7 +379,7 @@
          *
          * @namespace history.location
          */
-        "hash": {
+        "hash": isSupportHistoryAPI ? null : {
             set: function(value) {
                 changeState(null, ('' + value).replace(/^(#|)/, '#'), false, lastURL);
             },
@@ -986,7 +986,7 @@
         for(var i = 0; i < data.length; i += 2) {
             for(var prop in data[i]) {
                 if (data[i].hasOwnProperty(prop)) {
-                    if (typeof data[i][prop] === 'function') {
+                    if (typeof data[i][prop] !== 'object') {
                         // If the descriptor is a simple function, simply just assign it an object
                         data[i + 1][prop] = data[i][prop];
                     } else {
