@@ -185,19 +185,6 @@ Demo Site: http://history.spb-piksel.ru/ or http://devote.github.io/demos/histor
 
 Follow me on Twitter: https://twitter.com/DimaPakhtinov
 
------------------------------
-Want to thank you for my job?
-
-PayPal: spb.piksel@gmail.com
-
-WebMoney:
-WMR: R258217300226
-WMZ: Z314183434448
-
-Yandex.Money: 41001414127851
-
-Alfa-Bank Card # 5486732005875430 - 11/15
-
 -------------------------------------------------------------------------------------------------------------
 
 РУССКИЙ
@@ -391,16 +378,3 @@ history.redirect(/* type = */ '/', /* basepath = */ '/pathtosite/');
 Демо-сайт: http://history.spb-piksel.ru/ или http://devote.github.io/demos/history/
 
 Я в Twitter: https://twitter.com/DimaPakhtinov
-
------------------------------------
-Хочешь поблагодарить за мою работу?
-
-PayPal: spb.piksel@gmail.com
-
-WebMoney:
-WMR: R258217300226
-WMZ: Z314183434448
-
-Yandex.Money: 41001414127851
-
-Alfa-Bank Card # 5486732005875430 - 11/15
