@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.2.2
+ * History API JavaScript Library v4.2.3
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -11,7 +11,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2015-06-26 23:22
+ * Update: 2015-10-16 11:23
  */
 (function(factory) {
     if (typeof define === 'function' && define['amd']) {
@@ -100,6 +100,8 @@
     var eventsList = {};
     // stored last title
     var lastTitle = document.title;
+    // store a custom origin
+    var customOrigin;
 
     /**
      * Properties that will be replaced in the global
@@ -293,6 +295,25 @@
          */
         toString: function() {
             return this.href;
+        },
+        /**
+         * Returns the current origin.
+         *
+         * @namespace history.location
+         */
+        "origin": {
+            get: function() {
+                if (customOrigin !== void 0) {
+                    return customOrigin;
+                }
+                if (!windowLocation.origin) {
+                    return windowLocation.protocol + "//" + windowLocation.hostname + (windowLocation.port ? ':' + windowLocation.port: '');
+                }
+                return windowLocation.origin;
+            },
+            set: function(value) {
+                customOrigin = value;
+            }
         },
         /**
          * Returns the current page's location.
