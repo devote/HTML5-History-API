@@ -59,7 +59,7 @@
     // symlink to method 'history.replaceState'
     var historyReplaceState = windowHistory.replaceState;
     // if the browser supports HTML5-History-API
-    var isSupportHistoryAPI = !!historyPushState;
+    var isSupportHistoryAPI = isSupportHistoryAPIDetect();
     // verifies the presence of an object 'state' in interface 'History'
     var isSupportStateObjectInHistory = 'state' in windowHistory;
     // symlink to method 'Object.defineProperty'
@@ -469,6 +469,29 @@
             _nohash: nohash,
             _special: nohash + hash
         }
+    }
+
+    /**
+     * Detect HistoryAPI support while taking into account false positives.
+     * Based on https://github.com/Modernizr/Modernizr/blob/master/feature-detects/history.js
+     */
+    function isSupportHistoryAPIDetect(){
+
+        var ua = global.navigator.userAgent;
+
+        // We only want Android 2 and 4.0, stock browser, and not Chrome which identifies
+        // itself as 'Mobile Safari' as well, nor Windows Phone (issue #1471).
+        if ((ua.indexOf('Android 2.') !== -1 ||
+            (ua.indexOf('Android 4.0') !== -1)) &&
+            ua.indexOf('Mobile Safari') !== -1 &&
+            ua.indexOf('Chrome') === -1 &&
+            ua.indexOf('Windows Phone') === -1) {
+          return false;
+            }
+
+        // Return the regular check
+        return (window.history && 'pushState' in window.history);
+
     }
 
     /**
