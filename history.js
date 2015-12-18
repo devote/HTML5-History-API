@@ -240,7 +240,7 @@
          */
         "state": {
             get: function() {
-                return stateStorage[windowLocation.href] || null;
+                return typeof stateStorage[windowLocation.href] === 'object' ? JSON.parse(JSON.stringify(stateStorage[windowLocation.href])) : (stateStorage[windowLocation.href] || null);
             }
         }
     };
