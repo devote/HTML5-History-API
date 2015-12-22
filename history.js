@@ -1069,7 +1069,7 @@
 
         // track clicks on anchors
         if (!isSupportHistoryAPI) {
-            document[addEventListenerName](eventNamePrefix + "click", onAnchorClick, false);
+            global[addEventListenerName](eventNamePrefix + "click", onAnchorClick, false);
         }
 
         if (document.readyState === 'complete') {
