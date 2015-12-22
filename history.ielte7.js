@@ -241,12 +241,12 @@
         "state": {
             get: function() {
                 if (typeof stateStorage[windowLocation.href] === 'object') {
-					return JSON.parse(JSON.stringify(stateStorage[windowLocation.href]));
-				} else if(typeof stateStorage[windowLocation.href] !== 'undefined') {
-					return stateStorage[windowLocation.href];
-				} else {
-					return null;
-				}
+                    return JSON.parse(JSON.stringify(stateStorage[windowLocation.href]));
+                } else if(typeof stateStorage[windowLocation.href] !== 'undefined') {
+                    return stateStorage[windowLocation.href];
+                } else {
+                    return null;
+                }
             }
         }
     };
