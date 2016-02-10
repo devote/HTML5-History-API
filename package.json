@@ -1,37 +1,35 @@
 {
-	"name": "html5-history-api",
-	"version": "4.2.5",
-	"description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
-	"keywords": [
-		"javascript",
-		"html5 history api",
-		"hashchange",
-		"popstate",
-		"pushstate",
-		"replacestate",
-		"hashes",
-		"hashbang",
-		"history",
-		"html5",
-		"devote"
-	],
-	"licenses": [
-		{},
-		{}
-	],
-	"author": "Dmitrii Pakhtinov",
-	"main": "history.js",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/devote/HTML5-History-API.git"
-	},
-	"npmName": "html5-history-api",
-	"npmFileMap": [
-		{
-			"basePath": "/",
-			"files": [
-				"*.js"
-			]
-		}
-	]
+  "name": "html5-history-api",
+  "npmName": "html5-history-api",
+  "npmFileMap": [{
+    "basePath": "/",
+    "files": [
+      "*.js"
+    ]
+  }],
+  "version": "4.2.5",
+  "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
+  "main": "history.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/devote/HTML5-History-API.git"
+  },
+  "keywords": [
+    "javascript",
+    "html5 history api",
+    "hashchange",
+    "popstate",
+    "pushstate",
+    "replacestate",
+    "hashes",
+    "hashbang",
+    "history",
+    "html5",
+    "devote"
+  ],
+  "author": "Dmitrii Pakhtinov",
+  "licenses": [
+    "GPL-3.0",
+    "MIT"
+  ]
 }
