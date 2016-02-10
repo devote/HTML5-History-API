@@ -413,8 +413,8 @@
    * @return {Object}
    */
   function parseURL(href, isWindowLocation, isNotAPI) {
-    var re = /(?:(\w+\:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
-    if (href != null && href !== '' && !isWindowLocation) {
+    var re = /(?:([a-zA-Z0-9\-]+\:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
+    if (href !== null && href !== '' && !isWindowLocation) {
       var current = parseURL(),
           base = document.getElementsByTagName('base')[0];
       if (!isNotAPI && base && base.getAttribute('href')) {
