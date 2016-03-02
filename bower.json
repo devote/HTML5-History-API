@@ -2,7 +2,7 @@
   "name": "html5-history-api",
   "repo": "devote/HTML5-History-API",
   "description": "HTML5 History API expansion for browsers not supporting pushState, replaceState",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "keywords": ["history", "pushState", "replaceState"],
   "main": "history.js",
   "scripts": ["history.js"],
@@ -19,8 +19,6 @@
     "url": "http://spb-piksel.ru"
   },
   "licenses": [{
-    "type": "GPL-3.0"
-  }, {
     "type": "MIT"
   }]
 }

@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.2.5
+ * History API JavaScript Library v4.2.6
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -7,11 +7,10 @@
  *
  * http://spb-piksel.ru/
  *
- * Dual licensed under the MIT and GPL licenses:
+ * MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
  *
- * Update: 2015-12-22 14:26
+ * Update: 2016-02-10 11:37
  */
 (function(factory) {
   if (typeof define === 'function' && define['amd']) {
