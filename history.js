@@ -404,6 +404,15 @@
   }
 
   /**
+   * Checks if the object is defined and not null
+   * @param obj
+   * @returns {boolean}
+   */
+  function isPresent(obj) {
+    return obj !== undefined && obj !== null;
+  }
+
+  /**
    * Prepares a parts of the current or specified reference for later use in the library
    *
    * @param {string} [href]
@@ -413,7 +422,7 @@
    */
   function parseURL(href, isWindowLocation, isNotAPI) {
     var re = /(?:([a-zA-Z0-9\-]+\:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
-    if (href !== null && href !== '' && !isWindowLocation) {
+    if (isPresent(href) && href !== '' && !isWindowLocation) {
       var current = parseURL(),
           base = document.getElementsByTagName('base')[0];
       if (!isNotAPI && base && base.getAttribute('href')) {
