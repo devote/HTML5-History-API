@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.2.6
+ * History API JavaScript Library v4.2.7
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -10,7 +10,7 @@
  * MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Update: 2016-02-10 11:37
+ * Update: 2016-03-08 16:57
  */
 (function(factory) {
   if (typeof define === 'function' && define['amd']) {
