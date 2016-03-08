@@ -13,18 +13,20 @@
  * Update: 2016-02-10 11:37
  */
 (function(factory) {
-  if (typeof requirejs !== 'undefined' && typeof define === 'function' && define['amd']) {
-    // https://github.com/devote/HTML5-History-API/issues/73
-    var rndKey = '[history' + (new Date()).getTime() + ']';
-    var onError = requirejs['onError'];
-    factory.toString = function() {
-      return rndKey;
-    };
-    requirejs['onError'] = function(err) {
-      if (err.message.indexOf(rndKey) === -1) {
-        onError.call(requirejs, err);
-      }
-    };
+  if (typeof define === 'function' && define['amd']) {
+    if (typeof requirejs !== 'undefined') {
+      // https://github.com/devote/HTML5-History-API/issues/73
+      var rndKey = '[history' + (new Date()).getTime() + ']';
+      var onError = requirejs['onError'];
+      factory.toString = function() {
+        return rndKey;
+      };
+      requirejs['onError'] = function(err) {
+        if (err.message.indexOf(rndKey) === -1) {
+          onError.call(requirejs, err);
+        }
+      };
+    }
     define([], factory);
   }
   // commonJS support
