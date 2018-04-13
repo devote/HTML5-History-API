@@ -77,9 +77,9 @@
   // String that will contain the name of the method
   var dispatchEventName = global.dispatchEvent ? 'dispatchEvent' : 'fireEvent';
   // reference native methods for the events
-  var addEvent = global[addEventListenerName];
-  var removeEvent = global[removeEventListenerName];
-  var dispatch = global[dispatchEventName];
+  var addEvent = maybeBindToWindow(global[addEventListenerName]);
+  var removeEvent = maybeBindToWindow(global[removeEventListenerName]);
+  var dispatch = maybeBindToWindow(global[dispatchEventName]);
   // default settings
   var settings = {"basepath": '/', "redirect": 0, "type": '/', "init": 0};
   // key for the sessionStorage
@@ -497,6 +497,22 @@
     }
     // Return the regular check
     return !!historyPushState;
+  }
+
+  /**
+   * This method attempts to bind a function to global.
+   *
+   * @param {Function} [func] The function to be bound
+   * @return {Function} Returns the bound function or func
+   */
+  function maybeBindToWindow(func) {
+    if (window &&
+        window.EventTarget &&
+        typeof window.EventTarget.prototype.addEventListener === 'function' &&
+        typeof func.bind === 'function') {
+      return func.bind(window);
+    }
+    return func;
   }
 
   /**
