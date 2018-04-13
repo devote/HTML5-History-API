@@ -1,16 +1,16 @@
 /*!
- * History API JavaScript Library v4.2.8
+ * History API JavaScript Library v4.2.9
  *
  * Support: IE6+, FF3+, Opera 9+, Safari, Chrome and other
  *
- * Copyright 2011-2017, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
+ * Copyright 2011-2018, Dmitrii Pakhtinov ( spb.piksel@gmail.com )
  *
  * http://spb-piksel.ru/
  *
  * MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Update: 2017-03-01 12:07
+ * Update: 2018-04-13 10:30
  */
 (function(factory) {
   if (typeof define === 'function' && define['amd']) {
@@ -77,9 +77,9 @@
   // String that will contain the name of the method
   var dispatchEventName = global.dispatchEvent ? 'dispatchEvent' : 'fireEvent';
   // reference native methods for the events
-  var addEvent = global[addEventListenerName];
-  var removeEvent = global[removeEventListenerName];
-  var dispatch = global[dispatchEventName];
+  var addEvent = maybeBindToGlobal(global[addEventListenerName]);
+  var removeEvent = maybeBindToGlobal(global[removeEventListenerName]);
+  var dispatch = maybeBindToGlobal(global[dispatchEventName]);
   // default settings
   var settings = {"basepath": '/', "redirect": 0, "type": '/', "init": 0};
   // key for the sessionStorage
@@ -497,6 +497,22 @@
     }
     // Return the regular check
     return !!historyPushState;
+  }
+
+  /**
+   * This method attempts to bind a function to global.
+   *
+   * @param {Function} [func] The function to be bound
+   * @return {Function} Returns the bound function or func
+   */
+  function maybeBindToGlobal(func) {
+    if (func && global &&
+        global.EventTarget &&
+        typeof global.EventTarget.prototype.addEventListener === 'function' &&
+        typeof func.bind === 'function') {
+      return func.bind(global);
+    }
+    return func;
   }
 
   /**
