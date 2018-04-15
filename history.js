@@ -1,5 +1,5 @@
 /*!
- * History API JavaScript Library v4.2.9
+ * History API JavaScript Library v4.2.10
  *
  * Support: IE8+, FF3+, Opera 9+, Safari, Chrome and other
  *
@@ -10,7 +10,7 @@
  * MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Update: 2018-04-13 10:30
+ * Update: 2018-04-15 13:54
  */
 (function(factory) {
   if (typeof define === 'function' && define['amd']) {
@@ -507,8 +507,8 @@
    */
   function maybeBindToGlobal(func) {
     if (func && global &&
-        global.EventTarget &&
-        typeof global.EventTarget.prototype.addEventListener === 'function' &&
+        global['EventTarget'] &&
+        typeof global['EventTarget'].prototype.addEventListener === 'function' &&
         typeof func.bind === 'function') {
       return func.bind(global);
     }
